@@ -1,0 +1,208 @@
+:root {
+  --gray-dark: #2f2f31;
+  --gray-light: #f2f3f7;
+  --blue-dark: #0032b4;
+  --blue-light: #5e86ef;
+  --red-dark: #f0446e;
+  --red-light: #ff9bb1;
+  --yellow-dark: #ebc259;
+  --yellow-light: #ffe171;
+  --mint-dark: #1bc99e;
+  --mint-light: #96f8bb;
+  --green-dark: #4ac955;
+  --green-light: #64c97a;
+  --font: normal normal 12px/18px Verdana Arial, sans-serif;
+  --alpha: 0.333333;
+}
+
+
+
+/* Grid BEGIN */
+
+[data-dirty-little-helper="overlay-container"] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10000;
+
+  [data-dirty-little-helper="overlay-background"] {
+    height: 100%;
+    background: rgba(#f0446e, var(--alpha));
+
+    [data-dirty-little-helper="overlay-column-title"] {
+      text-align: center;
+    }
+  }
+
+  .grid-container {
+    height: 100%;
+
+    .grid-x {
+      height: 100%;
+
+      .cell {
+        height: 100%;
+      }
+    }
+  }
+}
+
+/* Grid END */
+
+
+
+/* Heading BEGIN */
+
+[data-dirty-little-helper-header-tag-name] {
+  position: relative !important;
+  overflow: inherit;
+  outline: 2px solid !important;
+  outline-offset: -2px;
+  box-shadow: 0 0 5px 1px var(--gray-dark);
+
+  &:after {
+    content: attr(data-dirty-little-helper-header-tag-name);
+    position: absolute !important;
+    z-index: 999999;
+    top: 0;
+    right: 0;
+    transform: translateY(-100%);
+    font: var(--font);
+    font-weight: bold;
+    padding: 4px 6px 0 6px;
+    border-radius: 4px 4px 0 0;
+  }
+}
+
+h1[data-dirty-little-helper-header-tag-name] {
+  outline-color: var(--red-dark) !important;
+
+  &:after {
+    background-color: var(--red-dark);
+    color: white;
+  }
+}
+
+h2[data-dirty-little-helper-header-tag-name] {
+  outline-color: var(--red-light) !important;
+
+  &:after {
+    background-color: var(--red-light);
+    color: black;
+  }
+}
+
+h3[data-dirty-little-helper-header-tag-name] {
+  outline-color: var(--blue-dark) !important;
+
+  &:after {
+    background-color: var(--blue-dark);
+    color: white;
+  }
+}
+
+h4[data-dirty-little-helper-header-tag-name] {
+  outline-color: var(--blue-light) !important;
+
+  &:after {
+    background-color: var(--blue-light);
+    color: black;
+  }
+}
+
+h5[data-dirty-little-helper-header-tag-name] {
+  outline-color: var(--mint-dark) !important;
+
+  &:after {
+    background-color: var(--mint-dark);
+    color: black;
+  }
+}
+
+h6[data-dirty-little-helper-header-tag-name] {
+  outline-color: var(--mint-light) !important;
+
+  &:after {
+    background-color: var(--mint-light);
+    color: white;
+  }
+}
+
+/* Heading END */
+
+
+
+/* Image BEGIN */
+
+img[data-dirty-little-helper-element-attribute="alt"] {
+  outline-offset: -2px;
+
+  &[data-dirty-little-helper-element-attribute-state="filled"]  {
+    box-shadow: 0 0 5px var(--green-dark);
+    outline: 2px solid var(--green-dark) !important;
+  }
+
+  &[data-dirty-little-helper-element-attribute-state="empty"] {
+    box-shadow: 0 0 5px var(--yellow-dark);
+    outline: 2px solid var(--yellow-dark) !important;
+  }
+
+  &[data-dirty-little-helper-element-attribute-state="missing"] {
+    box-shadow: 0 0 5px var(--red-dark);
+    outline: 2px solid var(--red-dark) !important;
+  }
+}
+
+/* Image END */
+
+
+
+/* Link BEGIN */
+
+a[data-dirty-little-helper-element-attribute="title"] {
+  outline-offset: -2px;
+
+  &[data-dirty-little-helper-element-attribute-state="filled"]  {
+    box-shadow: 0 0 5px var(--green-dark);
+    outline: 2px solid var(--green-dark) !important;
+  }
+
+  &[data-dirty-little-helper-element-attribute-state="empty"] {
+    box-shadow: 0 0 5px var(--yellow-dark);
+    outline: 2px solid var(--yellow-dark) !important;
+  }
+
+  &[data-dirty-little-helper-element-attribute-state="missing"] {
+    box-shadow: 0 0 5px var(--red-dark);
+    outline: 2px solid var(--red-dark) !important;
+  }
+}
+
+/* Link END */
+
+
+
+/* Button BEGIN */
+
+button[data-dirty-little-helper-element-attribute="title"] {
+  outline-offset: -2px;
+
+  &[data-dirty-little-helper-element-attribute-state="filled"]  {
+    box-shadow: 0 0 5px var(--green-dark);
+    outline: 2px solid var(--green-dark) !important;
+  }
+
+  &[data-dirty-little-helper-element-attribute-state="empty"] {
+    box-shadow: 0 0 5px var(--yellow-dark);
+    outline: 2px solid var(--yellow-dark) !important;
+  }
+
+  &[data-dirty-little-helper-element-attribute-state="missing"] {
+    box-shadow: 0 0 5px var(--red-dark);
+    outline: 2px solid var(--red-dark) !important;
+  }
+}
+
+/* Button END */
