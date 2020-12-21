@@ -6,9 +6,7 @@ import { TextService } from "../services/TextService"
 export default class TextsForm extends React.Component {
 
   state = {
-    id: undefined,
-    name: undefined,
-    content: undefined
+    id: undefined, name: undefined, content: undefined
   }
 
   constructor(props: any) {
@@ -19,7 +17,7 @@ export default class TextsForm extends React.Component {
 
   async componentDidMount() {
     // @ts-ignore
-    const { match: { params } } = this.props
+    const {match: {params}} = this.props
     if (params.id) {
       await TextService.load()
       this.setState({...await TextService.get(params.id)})
@@ -41,12 +39,11 @@ export default class TextsForm extends React.Component {
     }
     event.preventDefault()
     // @ts-ignore
-    this.props.history.push("/texts")
+    this.props.history.push("/settings/texts")
   }
 
   render() {
-    return (
-      <>
+    return (<>
         <h2>
           Text
           <div className="float-right">
@@ -65,10 +62,9 @@ export default class TextsForm extends React.Component {
             <textarea id="content" name="content" value={this.state.content} onChange={this.handleChange}/>
           </div>
           <div className="float-right">
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Submit"/>
           </div>
         </form>
-      </>
-    )
+      </>)
   }
 }

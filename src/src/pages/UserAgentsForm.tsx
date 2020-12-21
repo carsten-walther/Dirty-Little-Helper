@@ -6,11 +6,7 @@ import { UserAgentService } from "../services/UserAgentService"
 export default class UserAgentsForm extends React.Component {
 
   state = {
-    id: undefined,
-    name: undefined,
-    userAgent: undefined,
-    width: undefined,
-    height: undefined
+    id: undefined, name: undefined, userAgent: undefined, width: undefined, height: undefined
   }
 
   constructor(props: any) {
@@ -21,7 +17,7 @@ export default class UserAgentsForm extends React.Component {
 
   async componentDidMount() {
     // @ts-ignore
-    const { match: { params } } = this.props
+    const {match: {params}} = this.props
     if (params.id) {
       await UserAgentService.load()
       this.setState({...await UserAgentService.get(params.id)})
@@ -43,12 +39,11 @@ export default class UserAgentsForm extends React.Component {
     }
     event.preventDefault()
     // @ts-ignore
-    this.props.history.push("/useragents")
+    this.props.history.push("/settings/useragents")
   }
 
   render() {
-    return (
-      <>
+    return (<>
         <h2>
           UserAgent
           <div className="float-right">
@@ -79,10 +74,9 @@ export default class UserAgentsForm extends React.Component {
             <input type="number" id="height" name="height" value={this.state.height} onChange={this.handleChange}/>
           </div>
           <div className="float-right">
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Submit"/>
           </div>
         </form>
-      </>
-    )
+      </>)
   }
 }

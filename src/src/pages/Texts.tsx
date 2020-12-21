@@ -15,7 +15,7 @@ export default class Texts extends React.Component {
     })
   }
 
-  async deleteText(text: Text) {
+  async delete(text: Text) {
     // @ts-ignore
     let index = this.state.texts.indexOf(text)
     if (index > -1) {
@@ -28,8 +28,7 @@ export default class Texts extends React.Component {
   }
 
   render() {
-    return (
-      <>
+    return (<>
         <h2>
           Texts
           <div className="float-right">
@@ -43,20 +42,17 @@ export default class Texts extends React.Component {
           <div className="clearfix"/>
         </h2>
         <ul className="scrollable">
-          {this.state.texts.map((text: Text, index: number) => (
-            <li key={index}>
+          {this.state.texts.map((text: Text, index: number) => (<li key={index}>
               <span>{text.name}</span>
               <div className="float-right">
-                <Link to={`/settings/texts/show/${text.id}`}>
+                <Link to={`/settings/texts/edit/${text.id}`}>
                   <button>Edit</button>
                 </Link>
-                <button onClick={() => this.deleteText(text)}>Delete</button>
+                <button onClick={() => this.delete(text)}>Delete</button>
               </div>
               <div className="clearfix"/>
-            </li>
-          ))}
+            </li>))}
         </ul>
-      </>
-    )
+      </>)
   }
 }

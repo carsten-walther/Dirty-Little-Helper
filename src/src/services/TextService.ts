@@ -1,11 +1,10 @@
-import { set, get } from './Storage'
 import { Text } from '../interfaces/Text'
+import { get, set } from './Storage'
 
 class TextServiceController {
 
-  private storageKey: string = 'texts'
-
   public texts: Text[] = []
+  private storageKey: string = 'texts'
 
   async load(): Promise<Text[]> {
     if (this.texts.length > 0) {
@@ -28,9 +27,7 @@ class TextServiceController {
     // Create a unique id that is one larger than the current largest id
     let id = Math.max(...this.texts.map(text => parseInt(text.id)), 0) + 1
     this.texts.push({
-      id: id.toString(),
-      name: text.name,
-      content: text.content
+      id: id.toString(), name: text.name, content: text.content
     })
     this.save()
   }

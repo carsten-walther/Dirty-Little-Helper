@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './global/App'
 
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(<App/>, document.getElementById('root'))
 
 /*
 // Use matchMedia to check the user preference

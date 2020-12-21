@@ -7,38 +7,29 @@ export default class Home extends React.Component {
   toggleGridOverlay() {
     // @ts-ignore
     chrome.tabs.query({
-        active: true,
-        currentWindow: true,
+      active: true, currentWindow: true, // @ts-ignore
+    }, (tabs) => {
       // @ts-ignore
-      }, (tabs) => {
-      // @ts-ignore
-        chrome.tabs.sendMessage(tabs[0].id, {
-          function: 'toggleGridOverlay',
-        })
-      },
-    )
+      chrome.tabs.sendMessage(tabs[0].id, {
+        function: 'toggleGridOverlay',
+      })
+    },)
   }
 
   toggleOutlines(func: string, selector: string, attribute: string) {
     // @ts-ignore
     chrome.tabs.query({
-        active: true,
-        currentWindow: true,
-        // @ts-ignore
-      }, (tabs) => {
-        // @ts-ignore
-        chrome.tabs.sendMessage(tabs[0].id, {
-          function: func,
-          selector: selector,
-          attribute: attribute,
-        })
-      },
-    )
+      active: true, currentWindow: true, // @ts-ignore
+    }, (tabs) => {
+      // @ts-ignore
+      chrome.tabs.sendMessage(tabs[0].id, {
+        function: func, selector: selector, attribute: attribute,
+      })
+    },)
   }
 
   render() {
-    return (
-      <>
+    return (<>
         <section>
           <h2 className="title">Tools</h2>
           <ul>
@@ -74,7 +65,6 @@ export default class Home extends React.Component {
             </li>
           </ul>
         </section>
-      </>
-    )
+      </>)
   }
 }

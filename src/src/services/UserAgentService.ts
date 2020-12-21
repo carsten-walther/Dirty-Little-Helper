@@ -1,11 +1,10 @@
-import { set, get } from './Storage'
 import { UserAgent } from '../interfaces/UserAgent'
+import { get, set } from './Storage'
 
 class UserAgentServiceController {
 
-  private storageKey: string = 'userAgents'
-
   public userAgents: UserAgent[] = []
+  private storageKey: string = 'userAgents'
 
   async load(): Promise<UserAgent[]> {
     if (this.userAgents.length > 0) {
@@ -28,11 +27,7 @@ class UserAgentServiceController {
     // Create a unique id that is one larger than the current largest id
     let id = Math.max(...this.userAgents.map(userAgent => parseInt(userAgent.id)), 0) + 1
     this.userAgents.push({
-      id: id.toString(),
-      name: userAgent.name,
-      userAgent: userAgent.userAgent,
-      width: userAgent.width,
-      height: userAgent.height
+      id: id.toString(), name: userAgent.name, userAgent: userAgent.userAgent, width: userAgent.width, height: userAgent.height
     })
     this.save()
   }
