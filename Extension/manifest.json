@@ -54,12 +54,11 @@
     }
   ],
   "commands": {
-    "toggle-grid-overlay": {
+    "toggle_grid_overlay": {
+      "description": "Toggle Grid Overlay",
       "suggested_key": {
-        "default": "Ctrl+Shift+0",
-        "mac": "Ctrl+Shift+0"
-      },
-      "description": "Toggle Grid Overlay"
+        "default": "Ctrl+Shift+0"
+      }
     }
   }
 }

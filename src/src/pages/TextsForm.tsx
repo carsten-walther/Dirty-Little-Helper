@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Text } from "../interfaces/Text"
-import { TextsService } from "../services/TextsService"
+import { TextService } from "../services/TextService"
 
-export default class TextForm extends React.Component {
+export default class TextsForm extends React.Component {
 
   state = {
     id: undefined,
@@ -21,8 +21,8 @@ export default class TextForm extends React.Component {
     // @ts-ignore
     const { match: { params } } = this.props
     if (params.id) {
-      await TextsService.load()
-      this.setState({...await TextsService.get(params.id)})
+      await TextService.load()
+      this.setState({...await TextService.get(params.id)})
     }
   }
 
@@ -35,9 +35,9 @@ export default class TextForm extends React.Component {
   handleSubmit(event: any) {
     let text = this.state as unknown as Text
     if (typeof text.id === 'undefined') {
-      TextsService.create(text)
+      TextService.create(text)
     } else {
-      TextsService.update(text.id, text)
+      TextService.update(text.id, text)
     }
     event.preventDefault()
     // @ts-ignore
@@ -50,8 +50,8 @@ export default class TextForm extends React.Component {
         <h2>
           Text
           <div className="float-right">
-            <Link to="/texts">
-              <button>Back</button>
+            <Link to="/settings/texts">
+              <button>←</button>
             </Link>
           </div>
         </h2>

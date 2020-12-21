@@ -1,25 +1,33 @@
-chrome.extension.onMessage.addListener((message, sender, callback) => {
-  if (message.function === 'toggleGridOverlay') {
-    toggleGridOverlay()
-  }
+/**
+ * initContent
+ */
+let initContent = () => {
 
-  if (message.function === 'outlineHeadings') {
-    outlineHeadings()
-  }
+  chrome.extension.onMessage.addListener((message, sender, callback) => {
 
-  if (message.function === 'outlineElementAttribute') {
-    outlineElementAttribute(message.selector, message.attribute)
-  }
+    if (message.function === 'toggleGridOverlay') {
+      toggleGridOverlay()
+    }
 
-  if (message.function === 'insertText') {
-    insertText(message.text)
-  }
-})
+    if (message.function === 'outlineHeadings') {
+      outlineHeadings()
+    }
+
+    if (message.function === 'outlineElementAttribute') {
+      outlineElementAttribute(message.selector, message.attribute)
+    }
+
+    if (message.function === 'insertText') {
+      insertText(message.text)
+    }
+  })
+}
 
 /**
  * toggleGridOverlay
  */
 let toggleGridOverlay = () => {
+
   for (let element of document.getElementsByTagName('body')) {
 
     let rows = []
@@ -49,7 +57,8 @@ let toggleGridOverlay = () => {
       element.insertAdjacentHTML('beforeend', html)
     } else {
       delete element.dataset.dirtyLittleHelperToggleGrid
-      element.removeChild(document.querySelector('[data-dirty-little-helper="overlay-container"]'))
+      element.removeChild(document.querySelector(
+        '[data-dirty-little-helper="overlay-container"]'))
     }
   }
 }
@@ -58,6 +67,7 @@ let toggleGridOverlay = () => {
  * outlineHeadings
  */
 let outlineHeadings = () => {
+
   for (let element of document.querySelectorAll('h1, h2, h3, h4, h5, h6')) {
 
     if (!element.dataset.dirtyLittleHelperHeaderTagName) {
@@ -75,6 +85,7 @@ let outlineHeadings = () => {
  * @param attribute
  */
 let outlineElementAttribute = (selector, attribute) => {
+
   for (let element of document.querySelectorAll(selector)) {
 
     let state = 'filled'
@@ -82,7 +93,7 @@ let outlineElementAttribute = (selector, attribute) => {
     if (!element.hasAttribute(attribute)) {
       state = 'missing'
     } else {
-      if (element.getAttribute(attribute) === "") {
+      if (element.getAttribute(attribute) === '') {
         state = 'empty'
       }
     }
@@ -104,8 +115,10 @@ let outlineElementAttribute = (selector, attribute) => {
  * @returns {Element|boolean}
  */
 let getActiveElement = (document) => {
+
   document = document || window.document
-  if (document.body === document.activeElement || document.activeElement.tagName === 'IFRAME') {
+  if (document.body === document.activeElement ||
+    document.activeElement.tagName === 'IFRAME') {
     let iframes = document.getElementsByTagName('iframe')
     for (let i = 0; i < iframes.length; i++) {
       let focused = getActiveElement(iframes[i].contentWindow.document)
@@ -127,6 +140,7 @@ let getActiveElement = (document) => {
  * @returns {boolean}
  */
 let insertIntoValueElement = (element, text) => {
+
   let start = element.selectionStart
   let end = element.selectionEnd
 
@@ -151,6 +165,7 @@ let insertIntoValueElement = (element, text) => {
  * @param text
  */
 let insertText = (text) => {
+
   let element = getActiveElement(document)
 
   if (!element) {
@@ -161,3 +176,5 @@ let insertText = (text) => {
     return insertIntoValueElement(element, text)
   }
 }
+
+initContent()

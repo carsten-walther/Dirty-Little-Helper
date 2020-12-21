@@ -1,7 +1,7 @@
 import { set, get } from './Storage'
 import { Text } from '../interfaces/Text'
 
-class TextsServiceController {
+class TextServiceController {
 
   private storageKey: string = 'texts'
 
@@ -53,4 +53,4 @@ class TextsServiceController {
   }
 }
 
-export const TextsService = new TextsServiceController()
+export const TextService = new TextServiceController()

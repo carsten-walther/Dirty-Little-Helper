@@ -1,4 +1,5 @@
 let texts = []
+let userAgents = []
 
 /**
  * loadTextsFromStorage
@@ -13,8 +14,6 @@ let loadTextsFromStorage = () => {
     texts = JSON.parse(textsStorage)
   }
 }
-
-let userAgents = []
 
 /**
  * loadUserAgentsStorageData

@@ -6,6 +6,7 @@
  * @param callback
  */
 let setUserAgent = (info, tab, callback) => {
+
   chrome.tabs.query({
     active: !0,
     currentWindow: !0,
@@ -13,7 +14,9 @@ let setUserAgent = (info, tab, callback) => {
     for (let i = 0; i < userAgents.length; i++) {
       for (let u = 0; u < userAgents[i].userAgents.length; u++) {
         if (userAgents[i].userAgents[u].id === info) {
-          openPopupWindow(userAgents[i].userAgents[u].width, userAgents[i].userAgents[u].height, tab[0].url, userAgents[i].userAgents[u].userAgent)
+          openPopupWindow(userAgents[i].userAgents[u].width,
+            userAgents[i].userAgents[u].height, tab[0].url,
+            userAgents[i].userAgents[u].userAgent)
           break
         }
       }
@@ -33,6 +36,7 @@ let setUserAgent = (info, tab, callback) => {
  * @param userAgent
  */
 let openPopupWindow = (windowWidth, windowHeight, url, userAgent) => {
+
   let width = windowWidth + 10
   let height = windowHeight + 28
   let left = Math.round(screen.width / 2 - width / 2)
@@ -62,6 +66,7 @@ let openPopupWindow = (windowWidth, windowHeight, url, userAgent) => {
  * @param userAgent
  */
 let addListener = (info, userAgent) => {
+
   chrome.webRequest.onBeforeSendHeaders.addListener((details) => {
     for (let i = 0; i < details.requestHeaders.length; ++i) {
       if (details.requestHeaders[i].name === 'User-Agent') {
@@ -69,12 +74,12 @@ let addListener = (info, userAgent) => {
         break
       }
     }
-    return {requestHeaders: details.requestHeaders};
+    return { requestHeaders: details.requestHeaders }
   }, {
-    urls: ["<all_urls>"],
+    urls: ['<all_urls>'],
     windowId: info.id,
   }, [
-    "blocking",
-    "requestHeaders"
-  ]);
+    'blocking',
+    'requestHeaders',
+  ])
 }
