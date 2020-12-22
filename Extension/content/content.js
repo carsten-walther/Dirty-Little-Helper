@@ -101,9 +101,13 @@ let outlineElementAttribute = (selector, attribute) => {
     if (!element.dataset.dirtyLittleHelperElementAttribute) {
       element.dataset.dirtyLittleHelperElementAttributeState = state
       element.dataset.dirtyLittleHelperElementAttribute = attribute
+
+      wrapElement(element, state, attribute)
     } else {
       delete element.dataset.dirtyLittleHelperElementAttributeState
       delete element.dataset.dirtyLittleHelperElementAttribute
+
+      unWrapElement(element)
     }
   }
 }
@@ -175,6 +179,32 @@ let insertText = (text) => {
   if (typeof (element.value) !== 'undefined') {
     return insertIntoValueElement(element, text)
   }
+}
+
+/**
+ * wrapElement
+ *
+ * @param element
+ * @param state
+ * @param attribute
+ */
+let wrapElement = (element, state, attribute) => {
+  let wrapper = document.createElement('div')
+  wrapper.dataset.dirtyLittleHelperElementWrapper = ''
+  wrapper.dataset.dirtyLittleHelperElementWrapperState = state
+  wrapper.dataset.dirtyLittleHelperElementWrapperAttribute = attribute
+  element.parentNode.appendChild(wrapper)
+  wrapper.appendChild(element)
+}
+
+/**
+ * unWrapElement
+ *
+ * @param element
+ */
+let unWrapElement = (element) => {
+  let wrapper = element.parentElement
+  wrapper.replaceWith(element)
 }
 
 initContent()

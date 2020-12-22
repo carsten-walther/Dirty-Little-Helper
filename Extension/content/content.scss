@@ -57,10 +57,9 @@
 
 [data-dirty-little-helper-header-tag-name] {
   position: relative !important;
-  overflow: inherit;
+  overflow: unset !important;
   outline: 2px solid !important;
-  outline-offset: -2px;
-  box-shadow: 0 0 5px 1px var(--gray-dark);
+  outline-offset: -2px !important;
 
   &:after {
     content: attr(data-dirty-little-helper-header-tag-name);
@@ -78,6 +77,7 @@
 
 h1[data-dirty-little-helper-header-tag-name] {
   outline-color: var(--red-dark) !important;
+  box-shadow: 0 0 5px 1px var(--red-dark) !important;
 
   &:after {
     background-color: var(--red-dark);
@@ -87,6 +87,7 @@ h1[data-dirty-little-helper-header-tag-name] {
 
 h2[data-dirty-little-helper-header-tag-name] {
   outline-color: var(--red-light) !important;
+  box-shadow: 0 0 5px 1px var(--red-light) !important;
 
   &:after {
     background-color: var(--red-light);
@@ -96,6 +97,7 @@ h2[data-dirty-little-helper-header-tag-name] {
 
 h3[data-dirty-little-helper-header-tag-name] {
   outline-color: var(--blue-dark) !important;
+  box-shadow: 0 0 5px 1px var(--blue-dark) !important;
 
   &:after {
     background-color: var(--blue-dark);
@@ -105,6 +107,7 @@ h3[data-dirty-little-helper-header-tag-name] {
 
 h4[data-dirty-little-helper-header-tag-name] {
   outline-color: var(--blue-light) !important;
+  box-shadow: 0 0 5px 1px var(--blue-light) !important;
 
   &:after {
     background-color: var(--blue-light);
@@ -114,6 +117,7 @@ h4[data-dirty-little-helper-header-tag-name] {
 
 h5[data-dirty-little-helper-header-tag-name] {
   outline-color: var(--mint-dark) !important;
+  box-shadow: 0 0 5px 1px var(--mint-dark) !important;
 
   &:after {
     background-color: var(--mint-dark);
@@ -123,6 +127,7 @@ h5[data-dirty-little-helper-header-tag-name] {
 
 h6[data-dirty-little-helper-header-tag-name] {
   outline-color: var(--mint-light) !important;
+  box-shadow: 0 0 5px 1px var(--mint-light) !important;
 
   &:after {
     background-color: var(--mint-light);
@@ -206,3 +211,13 @@ button[data-dirty-little-helper-element-attribute="title"] {
 }
 
 /* Button END */
+
+
+
+/* data-dirty-little-helper-element-wrapper BEGIN */
+
+div[data-dirty-little-helper-element-wrapper] {
+  display: contents;
+}
+
+/* data-dirty-little-helper-element-wrapper END */
