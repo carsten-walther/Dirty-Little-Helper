@@ -76,6 +76,19 @@ footer p {
   padding: 0;
   margin: auto 0;
 }
+footer a {
+  border-bottom: 0 none;
+}
+footer a:hover {
+  border-bottom: 0 none;
+}
+
+svg {
+  vertical-align: text-top;
+}
+svg path {
+  fill: var(--font-color);
+}
 
 h1, h2, h3, h4, h5, h6 {
   padding: 0;
@@ -120,6 +133,21 @@ a {
 }
 a:hover {
   border-bottom: 1px solid var(--font-color);
+}
+
+.btn {
+  border: 0 none;
+  padding: 2px 8px 2px 0;
+  background: transparent;
+}
+.btn:hover {
+  border-bottom: 0 none;
+}
+.btn svg {
+  vertical-align: baseline;
+}
+.btn svg path {
+  fill: var(--font-color);
 }
 
 ul {

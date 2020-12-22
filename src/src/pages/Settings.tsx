@@ -1,17 +1,16 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { ReactComponent as IconBack } from '../assets/icons/arrow.svg'
 
 export default class Settings extends React.Component {
 
   render() {
     return (<>
         <h2>
+          <Link to="/" className="btn btn-back">
+            <IconBack width={16} height={16} />
+          </Link>
           Settings
-          <div className="float-right">
-            <Link to="/">
-              <button>←</button>
-            </Link>
-          </div>
         </h2>
         <section>
           <h2 className="title">Device Manager</h2>

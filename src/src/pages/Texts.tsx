@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { ReactComponent as IconBack } from "../assets/icons/arrow.svg";
 import { Text } from "../interfaces/Text"
 import { TextService } from "../services/TextService"
 
@@ -30,11 +31,11 @@ export default class Texts extends React.Component {
   render() {
     return (<>
         <h2>
+          <Link to="/settings" className="btn btn-back">
+            <IconBack width={16} height={16} />
+          </Link>
           Texts
           <div className="float-right">
-            <Link to="/settings">
-              <button>←</button>
-            </Link>
             <Link to="/settings/texts/add">
               <button>+</button>
             </Link>

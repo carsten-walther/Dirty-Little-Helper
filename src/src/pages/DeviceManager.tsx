@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { DeviceService } from '../services/DeviceService'
+import { ReactComponent as IconBack } from '../assets/icons/arrow.svg'
+import { ReactComponent as IconTrash } from '../assets/icons/trash.svg'
 
 export default class DeviceManager extends React.Component {
 
@@ -14,8 +16,30 @@ export default class DeviceManager extends React.Component {
     })
   }
 
-  delete(device: any) {
+  async deleteGroup(group: any) {
+    // @ts-ignore
+    let indexGroup = this.state.devices.indexOf(group)
+    // @ts-ignore
+    this.state.devices.splice(indexGroup, 1)
 
+    await DeviceService.save()
+    this.setState({
+      devices: [...(await DeviceService.load())]
+    })
+  }
+
+  async deleteDevice(group: any, device: any) {
+    // @ts-ignore
+    let indexGroup = this.state.devices.indexOf(group)
+    // @ts-ignore
+    let indexDevice = this.state.devices[indexGroup].userAgents.indexOf(device)
+    // @ts-ignore
+    this.state.devices[indexGroup].userAgents.splice(indexDevice, 1)
+
+    await DeviceService.save()
+    this.setState({
+      devices: [...(await DeviceService.load())]
+    })
   }
 
   render() {
@@ -25,10 +49,9 @@ export default class DeviceManager extends React.Component {
           Device Manager
           <div className="float-right">
             <Link to="/settings">
-              <button>←</button>
-            </Link>
-            <Link to="/settings/devicemanager/add">
-              <button>+</button>
+              <button>
+                <IconBack width={16} height={16} />
+              </button>
             </Link>
           </div>
           <div className="clearfix"/>
@@ -38,7 +61,14 @@ export default class DeviceManager extends React.Component {
             <ul>{this.state.devices.map((group: any, groupIndex: number) => {
               return (
                 <li key={groupIndex}>
-                  <h3>{group.name}</h3>
+                  <h3>
+                    {group.name}
+                    <div className="float-right">
+                      <button className="btn" onClick={() => this.deleteGroup(group)}>
+                        <IconTrash width={12} height={12} />
+                      </button>
+                    </div>
+                  </h3>
                   {group.userAgents.length > 0 ? (
                     <ul>{group.userAgents.map((device: any, deviceIndex: number) => {
                       return (
@@ -48,7 +78,9 @@ export default class DeviceManager extends React.Component {
                             <Link to={`/settings/devicemanager/edit/${device.id}`}>
                               <button>Edit</button>
                             </Link>
-                            <button onClick={() => this.delete(device)}>Delete</button>
+                            <button className="btn" onClick={() => this.deleteDevice(group, device)}>
+                              <IconTrash width={12} height={12} />
+                            </button>
                           </div>
                         </li>
                       )
@@ -59,6 +91,9 @@ export default class DeviceManager extends React.Component {
             })}</ul>
           ) : null}
         </div>
+        <Link to="/settings/devicemanager/add">
+          <button>+</button>
+        </Link>
       </>
     )
   }

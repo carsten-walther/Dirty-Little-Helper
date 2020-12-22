@@ -156,14 +156,13 @@ let renderUserAgentContextMenu = () => {
 
           chrome.contextMenus.create({
             id: 'userAgent_' + userAgent.id,
-            title: userAgent.name + ' (' + userAgent.width + 'x' +
-              userAgent.height + ')',
+            title: userAgent.name + ' (' + userAgent.width + 'x' + userAgent.height + ')',
             type: 'normal',
             parentId: 'userAgentGroup_' + userAgentGroup.id,
             contexts: ['all'],
             onclick: () => {
               setUserAgent(userAgent.id, 'ContextMenu')
-            },
+            }
           })
         })
       }

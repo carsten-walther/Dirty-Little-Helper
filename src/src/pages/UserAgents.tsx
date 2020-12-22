@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { ReactComponent as IconBack } from "../assets/icons/arrow.svg";
 import { UserAgent } from "../interfaces/UserAgent";
 import { UserAgentService } from "../services/UserAgentService";
 
@@ -30,11 +31,11 @@ export default class UserAgents extends React.Component {
   render() {
     return (<>
         <h2>
+          <Link to="/settings" className="btn btn-back">
+            <IconBack width={16} height={16} />
+          </Link>
           UserAgents
           <div className="float-right">
-            <Link to="/settings">
-              <button>←</button>
-            </Link>
             <Link to="/settings/useragents/add">
               <button>+</button>
             </Link>

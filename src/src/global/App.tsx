@@ -10,6 +10,7 @@ import UserAgentGroupsForm from '../pages/UserAgentGroupsForm'
 import UserAgents from '../pages/UserAgents'
 import UserAgentsForm from '../pages/UserAgentsForm'
 import './App.css'
+import { ReactComponent as IconSettings } from '../assets/icons/settings.svg'
 
 export default class App extends React.Component {
 
@@ -39,7 +40,7 @@ export default class App extends React.Component {
         </main>
         <footer>
           <p className="float-left">
-            <Link to="/settings">Settings</Link>
+            <Link to="/settings"><IconSettings width={16} height={16} /> Settings</Link>
             {/* this.props.location.pathname !== '/settings' ? <Link to="/settings">Settings</Link> : <Link to="/">Back</Link> */}
           </p>
           <p className="float-right">Version: 2.0.0</p>

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { ReactComponent as IconBack } from "../assets/icons/arrow.svg";
 import { UserAgentGroup } from '../interfaces/UserAgentGroup'
 import { UserAgentGroupService } from '../services/UserAgentGroupService'
 
@@ -30,6 +31,9 @@ export default class UserAgentGroups extends React.Component {
   render() {
     return (<>
       <h2>
+        <Link to="/settings" className="btn btn-back">
+          <IconBack width={16} height={16} />
+        </Link>
         UserAgentGroups
         <div className="float-right">
           <Link to="/settings">
