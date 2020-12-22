@@ -14,6 +14,16 @@ export default class Settings extends React.Component {
           </div>
         </h2>
         <section>
+          <h2 className="title">Device Manager</h2>
+          <p>Manage devices for simulating your web contents.</p>
+          <div className="float-right">
+            <Link to="/settings/devicemanager">
+              <button>Manage</button>
+            </Link>
+          </div>
+          <div className="clearfix"/>
+        </section>
+        <section>
           <h2 className="title">User Agent Groups</h2>
           <p>Manage groups for simulating your web contents.</p>
           <div className="float-right">
