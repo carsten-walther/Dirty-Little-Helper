@@ -1,8 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { ReactComponent as IconBack } from "../assets/icons/arrow.svg";
-import { Text } from "../interfaces/Text"
-import { TextService } from "../services/TextService"
+import { Text } from '../interfaces/Text'
+import { TextService } from '../services/TextService'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+import { ReactComponent as IconAdd } from '../assets/icons/add.svg'
+import { ReactComponent as IconChevronRight } from '../assets/icons/chevron-right.svg'
 
 export default class Texts extends React.Component {
 
@@ -16,44 +19,44 @@ export default class Texts extends React.Component {
     })
   }
 
-  async delete(text: Text) {
-    // @ts-ignore
-    let index = this.state.texts.indexOf(text)
-    if (index > -1) {
-      this.state.texts.splice(index, 1)
+  cropText(str: string, chars?: number) {
+    if (!chars) {
+      chars = 80
     }
-    await TextService.delete(text)
-    this.setState({
-      texts: [...(await TextService.load())]
-    })
+    return str.length > chars ? str.substring(0, chars - 3) + "..." : str;
   }
 
   render() {
-    return (<>
-        <h2>
-          <Link to="/settings" className="btn btn-back">
-            <IconBack width={16} height={16} />
+    return (
+      <>
+        <Header title="Dummy Texts" backTo={'/settings'}>
+          <Link to="/settings/texts/add">
+            <IconAdd width={18} height={18} />
           </Link>
-          Texts
-          <div className="float-right">
-            <Link to="/settings/texts/add">
-              <button>+</button>
-            </Link>
-          </div>
-          <div className="clearfix"/>
-        </h2>
-        <ul className="scrollable">
-          {this.state.texts.map((text: Text, index: number) => (<li key={index}>
-              <span>{text.name}</span>
-              <div className="float-right">
-                <Link to={`/settings/texts/edit/${text.id}`}>
-                  <button>Edit</button>
-                </Link>
-                <button onClick={() => this.delete(text)}>Delete</button>
-              </div>
-              <div className="clearfix"/>
-            </li>))}
-        </ul>
-      </>)
+        </Header>
+        <main>
+          <section>
+            {this.state.texts.length > 0 ? (
+              <ul className="stacked-list">
+                {this.state.texts.map((text: Text, index: number) => {
+                  return (
+                    <li className="pointer" key={index}>
+                      <Link to={`/settings/texts/edit/${text.id}`}>
+                        <div>
+                          <p className="title">{text.name}</p>
+                          <p>{this.cropText(text.content)}</p>
+                        </div>
+                        <IconChevronRight width={18} height={18} />
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
+            ) : null}
+          </section>
+        </main>
+        <Footer />
+      </>
+    )
   }
 }

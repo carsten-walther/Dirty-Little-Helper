@@ -1,7 +1,11 @@
 /*global chrome*/
 
 import React from 'react'
-import { DeviceService } from "../services/DeviceService";
+import { DeviceService } from '../services/DeviceService'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+import {Link} from "react-router-dom";
+import {ReactComponent as IconChevronRight} from "../assets/icons/chevron-right.svg";
 
 export default class Home extends React.Component {
 
@@ -58,65 +62,64 @@ export default class Home extends React.Component {
   render() {
     return (
       <>
-        <section>
-          <h2 className="title">Tools</h2>
-          <ul>
-            <li>
-              Grid Overlay
-              <div className="float-right">
-                <button onClick={this.toggleGridOverlay}>Toggle</button>
-              </div>
-            </li>
-            <li>
-              Outline Headings
-              <div className="float-right">
-                <button onClick={() => this.toggleOutlines('outlineHeadings', '', '')}>Toggle</button>
-              </div>
-            </li>
-            <li>
-              Image Alternative Attributes
-              <div className="float-right">
-                <button onClick={() => this.toggleOutlines('outlineElementAttribute', 'img', 'alt')}>Toggle</button>
-              </div>
-            </li>
-            <li>
-              Anchor Title Attributes
-              <div className="float-right">
-                <button onClick={() => this.toggleOutlines('outlineElementAttribute', 'a', 'title')}>Toggle</button>
-              </div>
-            </li>
-            <li>
-              Button Title Attributes
-              <div className="float-right">
-                <button onClick={() => this.toggleOutlines('outlineElementAttribute', 'button', 'title')}>Toggle</button>
-              </div>
-            </li>
-          </ul>
-        </section>
-        <section>
-          <h2 className="title">Devices</h2>
+        <Header title="Dirty Little Helper" />
+        <main>
+          <section>
+            <h2 className="title">Tools</h2>
+            <ul className="button-list">
+              <li>
+                <button onClick={this.toggleGridOverlay}>Grid Overlay</button>
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h2 className="title">Outlines</h2>
+            <ul className="button-list">
+              <li>
+                <button onClick={() => this.toggleOutlines('outlineHeadings', '', '')}>Headings</button>
+              </li>
+              <li>
+                <button onClick={() => this.toggleOutlines('outlineElementAttribute', 'img', 'alt')}>Image Alternative Attributes</button>
+              </li>
+              <li>
+                <button onClick={() => this.toggleOutlines('outlineElementAttribute', 'a', 'title')}>Anchor Title Attributes</button>
+              </li>
+              <li>
+                <button onClick={() => this.toggleOutlines('outlineElementAttribute', 'button', 'title')}>Button Title Attributes</button>
+              </li>
+            </ul>
+          </section>
           {this.state.devices.length > 0 ? (
-            <ul>{this.state.devices.map((group: any, groupIndex: number) => {
-              return (
-                <li key={groupIndex}>
-                  <h4>{group.name}</h4>
-                  {group.userAgents.length > 0 ? (
-                    <ul>{group.userAgents.map((device: any, deviceIndex: number) => {
-                      return (
-                        <li key={deviceIndex}>
-                          {device.name} ({device.width}x{device.height})
-                          <div className="float-right">
-                            <button onClick={() => this.openBrowser(device)}>Open</button>
-                          </div>
-                        </li>
-                      )
-                    })}</ul>
-                  ) : null}
-                </li>
-              )
-            })}</ul>
+            <section>
+              <h2 className="title">Devices</h2>
+              <ul className="stacked-list">
+                {this.state.devices.map((group: any, groupIndex: number) => {
+                  return (
+                    <li key={groupIndex}>
+                      <h3>{group.name}</h3>
+                      {group.userAgents.length > 0 ? (
+                        <ul className="stacked-list">
+                          {group.userAgents.map((device: any, deviceIndex: number) => {
+                            return (
+                              <li className="pointer" key={deviceIndex} onClick={() => this.openBrowser(device)}>
+                                <div>
+                                  <p className="title">{device.name}</p>
+                                  <p>Width {device.width}px Height {device.height}px</p>
+                                </div>
+                                <IconChevronRight width={18} height={18} />
+                              </li>
+                            )
+                          })}
+                        </ul>
+                      ) : null}
+                    </li>
+                  )
+                })}
+              </ul>
+            </section>
           ) : null}
-        </section>
+        </main>
+        <Footer />
       </>
     )
   }

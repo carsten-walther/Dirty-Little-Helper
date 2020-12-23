@@ -1,57 +1,59 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { ReactComponent as IconBack } from '../assets/icons/arrow.svg'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+import { ReactComponent as IconChevronRight } from '../assets/icons/chevron-right.svg'
 
 export default class Settings extends React.Component {
 
   render() {
-    return (<>
-        <h2>
-          <Link to="/" className="btn btn-back">
-            <IconBack width={16} height={16} />
-          </Link>
-          Settings
-        </h2>
-        <section>
-          <h2 className="title">Device Manager</h2>
-          <p>Manage devices for simulating your web contents.</p>
-          <div className="float-right">
-            <Link to="/settings/devicemanager">
-              <button>Manage</button>
-            </Link>
-          </div>
-          <div className="clearfix"/>
-        </section>
-        <section>
-          <h2 className="title">User Agent Groups</h2>
-          <p>Manage groups for simulating your web contents.</p>
-          <div className="float-right">
-            <Link to="/settings/useragentgroups">
-              <button>Manage</button>
-            </Link>
-          </div>
-          <div className="clearfix"/>
-        </section>
-        <section>
-          <h2 className="title">User Agents</h2>
-          <p>Manage devices for simulating your web contents.</p>
-          <div className="float-right">
-            <Link to="/settings/useragents">
-              <button>Manage</button>
-            </Link>
-          </div>
-          <div className="clearfix"/>
-        </section>
-        <section>
-          <h2 className="title">Texts</h2>
-          <p>Manage dummy texts for inserting into input fields.</p>
-          <div className="float-right">
-            <Link to="/settings/texts">
-              <button>Manage</button>
-            </Link>
-          </div>
-          <div className="clearfix"/>
-        </section>
-      </>)
+    return (
+      <>
+        <Header title="Settings" backTo={'/'} />
+        <main>
+          <section>
+            <ul className="stacked-list">
+              <li>
+                <Link to="/settings/devicemanager">
+                  <div>
+                    <p className="title">Devices</p>
+                    <p>Manage devices for simulating your web contents.</p>
+                  </div>
+                  <IconChevronRight width={18} height={18} />
+                </Link>
+              </li>
+              <li>
+                <Link to="/settings/useragentgroups">
+                  <div>
+                    <p className="title">User Agent Groups</p>
+                    <p>Manage groups for simulating your web contents.</p>
+                  </div>
+                  <IconChevronRight width={18} height={18} />
+                </Link>
+              </li>
+              <li>
+                <Link to="/settings/useragents">
+                  <div>
+                    <p className="title">User Agents</p>
+                    <p>Manage devices for simulating your web contents.</p>
+                  </div>
+                  <IconChevronRight width={18} height={18} />
+                </Link>
+              </li>
+              <li>
+                <Link to="/settings/texts">
+                  <div>
+                    <p className="title">Dummy Texts</p>
+                    <p>Manage dummy texts for inserting into input fields.</p>
+                  </div>
+                  <IconChevronRight width={18} height={18} />
+                </Link>
+              </li>
+            </ul>
+          </section>
+        </main>
+        <Footer />
+      </>
+    )
   }
 }

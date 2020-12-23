@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { ReactComponent as IconBack } from "../assets/icons/arrow.svg";
+import { ReactComponent as IconBack } from "../assets/icons/chevron-left.svg";
 import { UserAgent } from '../interfaces/UserAgent'
 import { UserAgentGroup } from '../interfaces/UserAgentGroup'
 import { UserAgentService } from '../services/UserAgentService'
