@@ -3,11 +3,9 @@
 import React from 'react'
 import { IconButton, Typography, List, ListSubheader, ListItem, ListItemText, ListItemSecondaryAction, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button, Slide } from '@material-ui/core'
 import { Edit, Delete, Add } from '@material-ui/icons'
-
 import { TransitionProps } from '@material-ui/core/transitions'
 
 import Header from '../components/Header'
-import Footer from '../components/Footer'
 import { DeviceService } from '../services/DeviceService'
 import { cropText, openPopupWindow } from '../utilities/Utilities'
 
@@ -86,7 +84,7 @@ export default class Devices extends React.Component {
   }
 
   openGroupBrowser(group: any) {
-    group.userAgents.map((userAgent: any) => {
+    group.userAgents.forEach((userAgent: any) => {
       // @ts-ignore
       chrome.tabs.query({
         active: true, currentWindow: true
@@ -185,8 +183,6 @@ export default class Devices extends React.Component {
             </List>
           ) : null}
         </main>
-
-        <Footer/>
 
         <Dialog open={this.state.dialogOpen} onClose={this.closeDialog} TransitionComponent={Transition} keepMounted>
           <form noValidate autoComplete="off" onSubmit={this.handleSubmit}>

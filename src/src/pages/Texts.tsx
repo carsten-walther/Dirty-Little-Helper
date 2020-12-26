@@ -3,7 +3,6 @@
 import React from 'react'
 import { IconButton, Button, List, ListItem, ListItemText, ListItemSecondaryAction, Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText, TextField, Slide } from '@material-ui/core'
 import { Add, Delete, Edit } from '@material-ui/icons'
-
 import { TransitionProps } from '@material-ui/core/transitions'
 
 import { Text } from '../interfaces/Text'
@@ -11,7 +10,6 @@ import { TextService } from '../services/TextService'
 import { cropText } from '../utilities/Utilities'
 
 import Header from '../components/Header'
-import Footer from '../components/Footer'
 
 const Transition = React.forwardRef(function Transition(props: TransitionProps & { children?: React.ReactElement<any, any> }, ref: React.Ref<unknown>) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -159,8 +157,6 @@ export default class Texts extends React.Component {
             </List>
           ) : null}
         </main>
-
-        <Footer/>
 
         <Dialog open={this.state.dialogOpen} onClose={this.closeDialog} TransitionComponent={Transition} keepMounted>
           <form noValidate autoComplete="off" onSubmit={this.handleSubmit}>

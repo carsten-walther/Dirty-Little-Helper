@@ -1,5 +1,6 @@
 import React from 'react'
 import { MemoryRouter as Router, Route } from 'react-router-dom'
+import Footer from "../components/Footer";
 
 import Home from '../pages/Home'
 import Texts from '../pages/Texts'
@@ -13,6 +14,9 @@ export default class App extends React.Component {
         <Route path="/" component={Home} exact={true}/>
         <Route path="/texts" component={Texts} exact={true}/>
         <Route path="/devices" component={Devices} exact={true}/>
+
+        <Footer/>
+
       </Router>
     )
   }

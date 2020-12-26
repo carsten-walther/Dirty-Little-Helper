@@ -13,6 +13,7 @@ export default class Header extends React.Component<HeaderProps> {
 
   constructor(props: HeaderProps) {
     super(props)
+
     props = {
       title: '',
       backTo: null,
