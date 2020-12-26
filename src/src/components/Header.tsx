@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { ReactComponent as IconChevronLeft } from '../assets/icons/chevron-left.svg'
+import { AppBar, Toolbar, Grid, Typography, IconButton } from '@material-ui/core'
+import { ChevronLeft } from '@material-ui/icons'
 
 interface HeaderProps {
   title?: string,
@@ -8,39 +9,36 @@ interface HeaderProps {
   children?: any|null
 }
 
-export default class App extends React.Component {
+export default class Header extends React.Component<HeaderProps> {
 
-  props: HeaderProps = {
-    title: '',
-    backTo: null,
-    children: null
+  constructor(props: HeaderProps) {
+    super(props)
+    props = {
+      title: '',
+      backTo: null,
+      children: null
+    }
   }
 
   render() {
     return (
-      <header>
-        {this.props.backTo ? (
-          <h1>
-            <Link to={this.props.backTo}>
-              <IconChevronLeft width={18} height={18} /> {this.props.title}
-            </Link>
-            {this.props.children ? (
-              <div className="float-right">
-                {this.props.children}
-              </div>
+      <AppBar position="fixed" style={{ top: 0, bottom: 'auto' }}>
+        <Toolbar>
+          <Grid container justify="flex-start">
+            {this.props.backTo ? (
+              <IconButton edge="start" color="inherit" component={props => <Link {...props} to={this.props.backTo}/>}>
+                <ChevronLeft />
+              </IconButton>
             ) : null}
-          </h1>
-        ) : (
-          <h1>
-            {this.props.title}
-            {this.props.children ? (
-              <div className="float-right">
-                {this.props.children}
-              </div>
-            ) : null}
-          </h1>
-        )}
-      </header>
+            <Typography variant="h6">
+              {this.props.title}
+            </Typography>
+          </Grid>
+          <Grid container justify="flex-end">
+            {this.props.children ? this.props.children : null}
+          </Grid>
+        </Toolbar>
+      </AppBar>
     )
   }
 }

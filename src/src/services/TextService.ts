@@ -24,25 +24,23 @@ class TextServiceController {
   }
 
   create(text: Text): void {
-    // Create a unique id that is one larger than the current largest id
     let id = Math.max(...this.texts.map(text => parseInt(text.id)), 0) + 1
     this.texts.push({
-      id: id.toString(), name: text.name, content: text.content
+      id: id.toString(),
+      name: text.name,
+      content: text.content
     })
     this.save()
   }
 
   update(id: any, text: Text): void {
-    // Get the index in the array of the text that was passed in
     let index = this.texts.indexOf(this.get(id))
     this.texts[index] = text
     this.save()
   }
 
   delete(text: Text): void {
-    // Get the index in the array of the text that was passed in
     let index = this.texts.indexOf(text)
-    // Delete that element of the array and resave the data
     if (index > -1) {
       this.texts.splice(index, 1)
       this.save()

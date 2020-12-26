@@ -1,34 +1,47 @@
 /*global chrome*/
 
 import React from 'react'
-import { DeviceService } from '../services/DeviceService'
+import { Grid, Paper, Button } from '@material-ui/core'
+
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import {Link} from "react-router-dom";
-import {ReactComponent as IconChevronRight} from "../assets/icons/chevron-right.svg";
 
 export default class Home extends React.Component {
 
-  state = {
-    devices: []
-  }
-
-  async componentDidMount() {
-    this.setState({
-      devices: [...(await DeviceService.load())]
-    })
-  }
+  actions = [
+    {
+      name: 'Grid Overlay',
+      func: this.toggleGridOverlay,
+      params: []
+    }, {
+      name: 'Outline Headings',
+      func: this.toggleOutlines,
+      params: ['outlineHeadings']
+    }, {
+      name: 'Outline Image Alternative Attributes',
+      func: this.toggleOutlines,
+      params: ['outlineElementAttribute', 'img', 'alt']
+    }, {
+      name: 'Outline Anchor Title Attributes',
+      func: this.toggleOutlines,
+      params: ['outlineElementAttribute', 'a', 'title']
+    }, {
+      name: 'Outline Button Title Attributes',
+      func: this.toggleOutlines,
+      params: ['outlineElementAttribute', 'button', 'title']
+    }
+  ]
 
   toggleGridOverlay() {
     // @ts-ignore
     chrome.tabs.query({
       active: true,
-      currentWindow: true,
+      currentWindow: true
       // @ts-ignore
     }, (tabs) => {
       // @ts-ignore
       chrome.tabs.sendMessage(tabs[0].id, {
-        function: 'toggleGridOverlay',
+        function: 'toggleGridOverlay'
       })
     })
   }
@@ -42,84 +55,39 @@ export default class Home extends React.Component {
     }, (tabs) => {
       // @ts-ignore
       chrome.tabs.sendMessage(tabs[0].id, {
-        function: func, selector: selector, attribute: attribute,
+        function: func,
+        selector: selector,
+        attribute: attribute
       })
     })
   }
-
-  openBrowser(userAgent: any) {
-    // @ts-ignore
-    chrome.tabs.query({
-      active: true,
-      currentWindow: true,
-      // @ts-ignore
-    }, (tabs) => {
-      // @ts-ignore
-      openPopupWindow(userAgent.width, userAgent.height, tabs[0].url, userAgent.userAgent)
-    })
-  }
-
+  
   render() {
     return (
       <>
-        <Header title="Dirty Little Helper" />
+
+        <Header title="Dirty Little Helper"/>
+
         <main>
-          <section>
-            <h2 className="title">Tools</h2>
-            <ul className="button-list">
-              <li>
-                <button onClick={this.toggleGridOverlay}>Grid Overlay</button>
-              </li>
-            </ul>
-          </section>
-          <section>
-            <h2 className="title">Outlines</h2>
-            <ul className="button-list">
-              <li>
-                <button onClick={() => this.toggleOutlines('outlineHeadings', '', '')}>Headings</button>
-              </li>
-              <li>
-                <button onClick={() => this.toggleOutlines('outlineElementAttribute', 'img', 'alt')}>Image Alternative Attributes</button>
-              </li>
-              <li>
-                <button onClick={() => this.toggleOutlines('outlineElementAttribute', 'a', 'title')}>Anchor Title Attributes</button>
-              </li>
-              <li>
-                <button onClick={() => this.toggleOutlines('outlineElementAttribute', 'button', 'title')}>Button Title Attributes</button>
-              </li>
-            </ul>
-          </section>
-          {this.state.devices.length > 0 ? (
-            <section>
-              <h2 className="title">Devices</h2>
-              <ul className="stacked-list">
-                {this.state.devices.map((group: any, groupIndex: number) => {
-                  return (
-                    <li key={groupIndex}>
-                      <h3>{group.name}</h3>
-                      {group.userAgents.length > 0 ? (
-                        <ul className="stacked-list">
-                          {group.userAgents.map((device: any, deviceIndex: number) => {
-                            return (
-                              <li className="pointer" key={deviceIndex} onClick={() => this.openBrowser(device)}>
-                                <div>
-                                  <p className="title">{device.name}</p>
-                                  <p>Width {device.width}px Height {device.height}px</p>
-                                </div>
-                                <IconChevronRight width={18} height={18} />
-                              </li>
-                            )
-                          })}
-                        </ul>
-                      ) : null}
-                    </li>
-                  )
-                })}
-              </ul>
-            </section>
+
+          {this.actions.length > 0 ? (
+            <Grid container style={{ paddingTop: 10, paddingBottom: 10 }}>
+              {this.actions.map((action: any, index: number) => (
+                <Grid key={index} item xs={4} style={{ padding: 5 }}>
+                  <Paper elevation={0} style={{ margin: 0, padding: 0, height: 115 }}>
+                    <Button variant="contained" color="primary" onClick={() => action.func(action.params)} style={{ width: '100%', height: '100%', textTransform: 'none' }}>
+                      {action.name}
+                    </Button>
+                  </Paper>
+                </Grid>
+              ))}
+            </Grid>
           ) : null}
+
         </main>
-        <Footer />
+
+        <Footer/>
+
       </>
     )
   }

@@ -23,7 +23,6 @@ class DeviceServiceController {
   }
 
   create(device: any): void {
-    // Create a unique id that is one larger than the current largest id
     let id = Math.max(...this.devices.map(device => parseInt(device.id)), 0) + 1
     this.devices.push({
       id: id.toString(), name: device.name, content: device.content
@@ -32,16 +31,13 @@ class DeviceServiceController {
   }
 
   update(id: any, device: any): void {
-    // Get the index in the array of the device that was passed in
     let index = this.devices.indexOf(this.get(id))
     this.devices[index] = device
     this.save()
   }
 
   delete(device: any): void {
-    // Get the index in the array of the device that was passed in
     let index = this.devices.indexOf(device)
-    // Delete that element of the array and resave the data
     if (index > -1) {
       this.devices.splice(index, 1)
       this.save()
