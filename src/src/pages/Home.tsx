@@ -1,10 +1,10 @@
 /*global chrome*/
 
 import React from 'react'
-import { List, ListItem, Grid, Paper, Button, ListItemText, Typography, ListItemSecondaryAction, IconButton, ListSubheader } from '@material-ui/core'
+import { List, Grid, Paper, Button, ListItemText, Typography, ListSubheader } from '@material-ui/core'
 
 import Header from '../components/Header'
-import { cropText, openPopupWindow } from "../utilities/Utilities";
+import { cropText } from "../utilities/Utilities";
 
 export default class Home extends React.Component {
 
