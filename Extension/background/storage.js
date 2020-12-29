@@ -1,5 +1,6 @@
 let texts = []
-let userAgents = []
+let devices = []
+let validators = []
 
 /**
  * loadTextsFromStorage
@@ -16,15 +17,29 @@ let loadTextsFromStorage = () => {
 }
 
 /**
- * loadUserAgentsStorageData
+ * loadDevicesFromStorage
  */
-let loadUserAgentsFromStorage = () => {
-  if (typeof localStorage.userAgents === 'undefined') {
-    localStorage.userAgents = JSON.stringify(userAgentsList)
+let loadDevicesFromStorage = () => {
+  if (typeof localStorage.devices === 'undefined') {
+    localStorage.devices = JSON.stringify(userAgentsList)
   }
-  let userAgentsStorage = localStorage.userAgents
-  userAgents = chrome.extension.getBackgroundPage().userAgents
-  if (typeof userAgentsStorage !== 'undefined') {
-    userAgents = JSON.parse(userAgentsStorage)
+  let devicesStorage = localStorage.devices
+  devices = chrome.extension.getBackgroundPage().devices
+  if (typeof devicesStorage !== 'undefined') {
+    devices = JSON.parse(devicesStorage)
+  }
+}
+
+/**
+ * loadValidatorsFromStorage
+ */
+let loadValidatorsFromStorage = () => {
+  if (typeof localStorage.validators === 'undefined') {
+    localStorage.validators = JSON.stringify(validatorsList)
+  }
+  let validatorsStorage = localStorage.validators
+  validators = chrome.extension.getBackgroundPage().validators
+  if (typeof validatorsStorage !== 'undefined') {
+    validators = JSON.parse(validatorsStorage)
   }
 }

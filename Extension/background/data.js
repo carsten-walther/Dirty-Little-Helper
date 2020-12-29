@@ -297,3 +297,36 @@ let userAgentsList = [
     ]
   }
 ]
+
+/**
+ * validatorsList
+ *
+ * @type {({name: string, url: string}|{name: string, url: string}|{name: string, url: string}|{name: string, url: string}|{name: string, url: string})[]}
+ */
+let validatorsList = [
+  {
+    id: '1',
+    name: 'Validate CSS',
+    url: 'http://jigsaw.w3.org/css-validator/validator?profile=css3&warning=0&uri='
+  }, {
+    id: '2',
+    name: 'Validate HTML',
+    url: 'http://validator.w3.org/check?verbose=1&uri='
+  }, {
+    id: '3',
+    name: 'Validate Feed',
+    url: 'http://validator.w3.org/feed/check.cgi?url='
+  }, {
+    id: '4',
+    name: 'Validate Links',
+    url: 'http://validator.w3.org/checklink?check=Check&hide_type=all&summary=on&uri='
+  }, {
+    id: '5',
+    name: 'Validate Accessibility',
+    url: 'http://wave.webaim.org/report#/'
+  }, {
+    id: '6',
+    name: 'Validate Structured Data',
+    url: 'https://search.google.com/test/rich-results?url='
+  }
+]

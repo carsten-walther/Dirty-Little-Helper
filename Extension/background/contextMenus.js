@@ -11,13 +11,13 @@ let renderGridOverlayContextMenu = () => {
     onclick: (info, tab) => {
       chrome.tabs.query({
         'active': true,
-        'currentWindow': true,
+        'currentWindow': true
       }, (tabs) => {
         chrome.tabs.sendMessage(tabs[0].id, {
-          function: 'toggleGridOverlay',
+          function: 'toggleGridOverlay'
         })
       })
-    },
+    }
   })
 }
 
@@ -30,7 +30,7 @@ let renderOutlineContextMenu = () => {
     id: 'outlinesRoot',
     title: 'Outline',
     type: 'normal',
-    contexts: ['all'],
+    contexts: ['all']
   })
 
   chrome.contextMenus.create({
@@ -42,13 +42,13 @@ let renderOutlineContextMenu = () => {
     onclick: (info, tab) => {
       chrome.tabs.query({
         'active': true,
-        'currentWindow': true,
+        'currentWindow': true
       }, (tabs) => {
         chrome.tabs.sendMessage(tabs[0].id, {
-          function: 'outlineHeadings',
+          function: 'outlineHeadings'
         })
       })
-    },
+    }
   })
 
   chrome.contextMenus.create({
@@ -60,15 +60,15 @@ let renderOutlineContextMenu = () => {
     onclick: (info, tab) => {
       chrome.tabs.query({
         'active': true,
-        'currentWindow': true,
+        'currentWindow': true
       }, (tabs) => {
         chrome.tabs.sendMessage(tabs[0].id, {
           function: 'outlineElementAttribute',
           selector: 'img',
-          attribute: 'alt',
+          attribute: 'alt'
         })
       })
-    },
+    }
   })
 
   chrome.contextMenus.create({
@@ -80,15 +80,15 @@ let renderOutlineContextMenu = () => {
     onclick: (info, tab) => {
       chrome.tabs.query({
         'active': true,
-        'currentWindow': true,
+        'currentWindow': true
       }, (tabs) => {
         chrome.tabs.sendMessage(tabs[0].id, {
           function: 'outlineElementAttribute',
           selector: 'a',
-          attribute: 'title',
+          attribute: 'title'
         })
       })
-    },
+    }
   })
 
   chrome.contextMenus.create({
@@ -100,47 +100,53 @@ let renderOutlineContextMenu = () => {
     onclick: (info, tab) => {
       chrome.tabs.query({
         'active': true,
-        'currentWindow': true,
+        'currentWindow': true
       }, (tabs) => {
         chrome.tabs.sendMessage(tabs[0].id, {
           function: 'outlineElementAttribute',
           selector: 'button',
-          attribute: 'title',
+          attribute: 'title'
         })
       })
-    },
+    }
   })
 }
 
 /**
- * renderUserAgentContextMenu
+ * renderDevicesContextMenu
  */
-let renderUserAgentContextMenu = () => {
+let renderDevicesContextMenu = () => {
 
-  loadUserAgentsFromStorage()
+  if (typeof devices !== 'undefined' && devices.length > 0) {
 
-  if (typeof userAgents !== 'undefined' && userAgents.length > 0) {
+    chrome.contextMenus.create({
+      id: 'simulate',
+      title: 'Simulate',
+      type: 'normal',
+      contexts: ['all']
+    })
 
-    userAgents.forEach(userAgentGroup => {
+    devices.forEach(group => {
 
-      if (typeof userAgentGroup.userAgents !== 'undefined' &&
-        userAgentGroup.userAgents.length > 0) {
+      if (typeof group.userAgents !== 'undefined' &&
+        group.userAgents.length > 0) {
 
         chrome.contextMenus.create({
-          id: 'userAgentGroup_' + userAgentGroup.id,
-          title: userAgentGroup.name,
+          id: 'group_' + group.id,
+          title: group.name,
           type: 'normal',
+          parentId: 'simulate',
           contexts: ['all'],
         })
 
         chrome.contextMenus.create({
-          id: 'userAgentGroup_all_' + userAgentGroup.id,
+          id: 'group_all_' + group.id,
           title: 'Open All Sizes',
           type: 'normal',
-          parentId: 'userAgentGroup_' + userAgentGroup.id,
+          parentId: 'group_' + group.id,
           contexts: ['all'],
           onclick: () => {
-            userAgentGroup.userAgents.forEach(userAgent => {
+            group.userAgents.forEach(userAgent => {
               setUserAgent(userAgent.id, 'ContextMenu')
             })
           },
@@ -148,17 +154,17 @@ let renderUserAgentContextMenu = () => {
 
         chrome.contextMenus.create({
           type: 'separator',
-          parentId: 'userAgentGroup_' + userAgentGroup.id,
+          parentId: 'group_' + group.id,
           contexts: ['all'],
         })
 
-        userAgentGroup.userAgents.forEach(userAgent => {
+        group.userAgents.forEach(userAgent => {
 
           chrome.contextMenus.create({
-            id: 'userAgent_' + userAgent.id,
+            id: 'group_' + group.id + '_device_' + userAgent.id,
             title: userAgent.name + ' (' + userAgent.width + 'x' + userAgent.height + ')',
             type: 'normal',
-            parentId: 'userAgentGroup_' + userAgentGroup.id,
+            parentId: 'group_' + group.id,
             contexts: ['all'],
             onclick: () => {
               setUserAgent(userAgent.id, 'ContextMenu')
@@ -175,15 +181,13 @@ let renderUserAgentContextMenu = () => {
  */
 let renderTextsContextMenu = () => {
 
-  loadTextsFromStorage()
-
   if (typeof texts !== 'undefined' && texts.length > 0) {
 
     chrome.contextMenus.create({
       id: 'insertText',
       title: 'Insert Text',
       type: 'normal',
-      contexts: ['editable'],
+      contexts: ['editable']
     })
 
     texts.forEach(text => {
@@ -213,6 +217,43 @@ let renderTextsContextMenu = () => {
 }
 
 /**
+ * renderValidatorsContextMenu
+ */
+let renderValidatorsContextMenu = () => {
+
+  if (typeof validators !== 'undefined' && validators.length > 0) {
+
+    chrome.contextMenus.create({
+      id: 'validators',
+      title: 'Validation',
+      type: 'normal',
+      contexts: ['all']
+    })
+
+    validators.forEach(validator => {
+
+      chrome.contextMenus.create({
+        id: 'validator_' + validator.id,
+        title: validator.name,
+        type: 'normal',
+        parentId: 'validators',
+        contexts: [
+          'all',
+        ],
+        onclick: (info, tab) => {
+          chrome.tabs.query({
+            active: true,
+            currentWindow: true
+          }, (tabs) => {
+            chrome.tabs.create({ url: validator.url + tabs[0].url })
+          })
+        }
+      })
+    })
+  }
+}
+
+/**
  * initContextMenu
  */
 let renderContextMenu = () => {
@@ -225,9 +266,11 @@ let renderContextMenu = () => {
 
     renderOutlineContextMenu()
 
-    renderUserAgentContextMenu()
+    renderDevicesContextMenu()
 
     renderTextsContextMenu()
+
+    renderValidatorsContextMenu()
   })
 }
 

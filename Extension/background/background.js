@@ -3,6 +3,12 @@
  */
 chrome.runtime.onInstalled.addListener((details) => {
 
+  loadDevicesFromStorage()
+
+  loadTextsFromStorage()
+
+  loadValidatorsFromStorage()
+
   /**
    * open new tab after install/update
    */
