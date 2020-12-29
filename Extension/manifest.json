@@ -21,6 +21,7 @@
   },
   "background": {
     "scripts": [
+      "background/background.js",
       "background/data.js",
       "background/storage.js",
       "background/commands.js",
