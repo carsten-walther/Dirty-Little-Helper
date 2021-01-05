@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { AppBar, Toolbar, Grid, Typography, IconButton } from '@material-ui/core'
 import { ChevronLeft } from '@material-ui/icons'
 
+import { ReactComponent as Logo } from './../assets/icon.svg'
+
 interface HeaderProps {
   title?: string,
   backTo?: string|null
@@ -31,8 +33,8 @@ export default class Header extends React.Component<HeaderProps> {
                 <ChevronLeft />
               </IconButton>
             ) : null}
-            <Typography variant="h6">
-              {this.props.title}
+            <Typography variant="h6" style={{ position: 'relative', top: -2, whiteSpace: 'nowrap' }}>
+              <Logo width={24} height={24} style={{ position: 'relative', top: 5 }} /> {this.props.title}
             </Typography>
           </Grid>
           <Grid container justify="flex-end">

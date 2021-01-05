@@ -15,6 +15,10 @@ export default class Home extends React.Component {
       func: this.toggleGridOverlay,
       params: []
     }, {
+      name: 'Outline Focus',
+      func: this.toggleFocus,
+      params: []
+    }, {
       name: 'Outline Headings',
       func: this.toggleOutlines,
       params: ['outlineHeadings']
@@ -65,6 +69,20 @@ export default class Home extends React.Component {
     })
   }
 
+  toggleFocus() {
+    // @ts-ignore
+    chrome.tabs.query({
+      active: true,
+      currentWindow: true
+      // @ts-ignore
+    }, (tabs) => {
+      // @ts-ignore
+      chrome.tabs.sendMessage(tabs[0].id, {
+        function: 'toggleFocus'
+      })
+    })
+  }
+
   toggleOutlines(params: any) {
     // @ts-ignore
     chrome.tabs.query({
@@ -107,10 +125,10 @@ export default class Home extends React.Component {
                 <ul style={{backgroundColor: 'inherit', padding: 0}}>
                   <ListSubheader style={{backgroundColor: '#ddd'}}>
                     <ListItemText disableTypography primary={
-                      <Typography style={{fontSize: 18, fontWeight: 'bold'}}>
+                      <Typography style={{fontSize: 16, fontWeight: 'bold'}}>
                         Tools
                       </Typography>
-                    } style={{paddingTop: 18, paddingBottom: 18, paddingRight: 48, margin: 0}}/>
+                    } style={{paddingTop: 16, paddingBottom: 16, paddingRight: 48, margin: 0}}/>
                   </ListSubheader>
                   <List>
                     {this.actions.map((action: any, index: number) => (
@@ -128,10 +146,10 @@ export default class Home extends React.Component {
                 <ul style={{backgroundColor: 'inherit', padding: 0}}>
                   <ListSubheader style={{backgroundColor: '#ddd'}}>
                     <ListItemText disableTypography primary={
-                      <Typography style={{fontSize: 18, fontWeight: 'bold'}}>
+                      <Typography style={{fontSize: 16, fontWeight: 'bold'}}>
                         Validators
                       </Typography>
-                    } style={{paddingTop: 18, paddingBottom: 18, paddingRight: 48, margin: 0}}/>
+                    } style={{paddingTop: 16, paddingBottom: 16, paddingRight: 48, margin: 0}}/>
                   </ListSubheader>
                   <List>
                     {this.state.validators.map((validator: any, index: number) => (

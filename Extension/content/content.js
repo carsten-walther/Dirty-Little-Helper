@@ -9,6 +9,10 @@ let initContent = () => {
       toggleGridOverlay()
     }
 
+    if (message.function === 'toggleFocus') {
+      toggleFocus()
+    }
+
     if (message.function === 'outlineHeadings') {
       outlineHeadings()
     }
@@ -57,8 +61,32 @@ let toggleGridOverlay = () => {
       element.insertAdjacentHTML('beforeend', html)
     } else {
       delete element.dataset.dirtyLittleHelperToggleGrid
-      element.removeChild(document.querySelector(
-        '[data-dirty-little-helper="overlay-container"]'))
+      element.removeChild(document.querySelector('[data-dirty-little-helper="overlay-container"]'))
+    }
+  }
+}
+
+/**
+ * toggleFocus
+ */
+let toggleFocus = () => {
+
+  let html = `
+<style data-dirty-little-helper="focus-css">
+*:focus {
+  outline: 4px solid var(--red-dark) !important;
+  outline-offset: 0 !important;
+  box-shadow: 0 0 5px 6px var(--red-dark) !important;
+}
+</style>`
+
+  for (let element of document.getElementsByTagName('body')) {
+    if (!element.dataset.dirtyLittleHelperToggleFocus) {
+      element.dataset.dirtyLittleHelperToggleFocus = 'true'
+      element.insertAdjacentHTML('beforeend', html)
+    } else {
+      delete element.dataset.dirtyLittleHelperToggleFocus
+      element.removeChild(document.querySelector('[data-dirty-little-helper="focus-css"]'))
     }
   }
 }

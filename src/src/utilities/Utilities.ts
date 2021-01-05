@@ -26,7 +26,6 @@ export function openPopupWindow(windowWidth: number, windowHeight: number, url: 
   let height = windowHeight + 28
   let left = Math.round(window.screen.width / 2 - width / 2)
   let top = Math.round(window.screen.height / 2 - height / 2)
-
   // @ts-ignore
   chrome.windows.create({
     url: url,
