@@ -6,7 +6,7 @@ let initContent = () => {
   chrome.extension.onMessage.addListener((message, sender, callback) => {
 
     if (message.function === 'toggleGridOverlay') {
-      toggleGridOverlay()
+      toggleGridOverlay(message.columns)
     }
 
     if (message.function === 'toggleFocus') {
@@ -29,38 +29,55 @@ let initContent = () => {
 
 /**
  * toggleGridOverlay
+ *
+ * @param columns
  */
-let toggleGridOverlay = () => {
+let toggleGridOverlay = (columns) => {
+
+  if (typeof columns === 'undefined') {
+    columns = 12
+  }
 
   for (let element of document.getElementsByTagName('body')) {
 
     let rows = []
 
-    for (let i = 0; i < 12; ++i) {
+    for (let i = 1; i <= columns; ++i) {
+
       rows.push(`
-<div class="cell small-1 col-sm-1">
-  <div data-dirty-little-helper="overlay-background">
-    <div data-dirty-little-helper="overlay-column-title">
-      ${i + 1}
-    </div>
-  </div>
-</div>`)
+        <div class="cell auto col">
+          <div data-dirty-little-helper="overlay-background">
+            <div data-dirty-little-helper="overlay-column-title">
+              ${i}
+            </div>
+          </div>
+        </div>
+      `)
     }
 
     let html = `
-<div data-dirty-little-helper="overlay-container" style="height: ${document.body.offsetHeight}px;">
-  <div class="grid-container container">
-    <div class="grid-x grid-padding-x row">
-      ${rows.join('')}
-    </div>
-  </div>
-</div>`
+      <div data-dirty-little-helper="overlay-container" style="height: ${document.body.offsetHeight}px;">
+        <div class="grid-container container">
+          <div class="grid-x grid-padding-x row">
+            ${rows.join('')}
+          </div>
+        </div>
+      </div>
+    `
+
+    if (typeof element.dataset.dirtyLittleHelperColumns !== 'undefined') {
+      // update grid
+    } else {
+      // remove grid
+    }
 
     if (!element.dataset.dirtyLittleHelperToggleGrid) {
       element.dataset.dirtyLittleHelperToggleGrid = 'true'
+      element.dataset.dirtyLittleHelperColumns = columns
       element.insertAdjacentHTML('beforeend', html)
     } else {
       delete element.dataset.dirtyLittleHelperToggleGrid
+      delete element.dataset.dirtyLittleHelperColumns
       element.removeChild(document.querySelector('[data-dirty-little-helper="overlay-container"]'))
     }
   }

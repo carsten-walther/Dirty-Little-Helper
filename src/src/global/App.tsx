@@ -12,9 +12,8 @@ const theme = createMuiTheme({
     htmlFontSize: 12,
     fontSize: 10,
     fontFamily: [
-      '-apple-system',
-      'Roboto',
       'Helvetica',
+      'Helvetica Neue',
       'Arial',
       'sans-serif'
     ].join(',')
@@ -24,7 +23,7 @@ const theme = createMuiTheme({
       light: '#3572e3',
       main: '#1E61D9',
       dark: '#15459d',
-      contrastText: '#fff'
+      contrastText: '#ffffff'
     }
   },
   props: {

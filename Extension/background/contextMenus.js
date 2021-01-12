@@ -2,9 +2,11 @@
  * renderGridOverlayContextMenu
  */
 let renderGridOverlayContextMenu = () => {
+  let columns = [1,2,3,4,5,6,7,8,9,10,11,12]
+
   chrome.contextMenus.create({
     id: 'toggleGridOverlayRoot',
-    title: 'Toggle Grid Overlay',
+    title: 'Toggle Grid',
     type: 'normal',
     contexts: ['all'],
     onclick: (info, tab) => {
@@ -17,6 +19,26 @@ let renderGridOverlayContextMenu = () => {
         })
       })
     }
+  })
+  columns.forEach(column => {
+    chrome.contextMenus.create({
+      id: 'toggleGridOverlay_' + column,
+      title: (column === 1) ? column + ' column' : column + ' columns',
+      type: 'normal',
+      parentId: 'toggleGridOverlayRoot',
+      contexts: ['all'],
+      onclick: (info, tab) => {
+        chrome.tabs.query({
+          'active': true,
+          'currentWindow': true,
+        }, (tabs) => {
+          chrome.tabs.sendMessage(tabs[0].id, {
+            function: 'toggleGridOverlay',
+            columns: column
+          })
+        })
+      },
+    })
   })
 }
 

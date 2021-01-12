@@ -1,8 +1,8 @@
 /*global chrome*/
 
 import React from 'react'
-import { List, ListItem, ListItemText, Typography, ListSubheader } from '@material-ui/core'
-import { Launch } from '@material-ui/icons'
+import { List, ListItem, ListItemText, ListItemSecondaryAction, Typography, ListSubheader, IconButton, Menu, MenuItem } from '@material-ui/core'
+import { Launch, MoreVert } from '@material-ui/icons'
 
 import { ValidatorService } from '../services/ValidatorService'
 import Header from '../components/Header'
@@ -11,42 +11,59 @@ export default class Home extends React.Component {
 
   actions = [
     {
+      id: 'toggleGridOverlay',
       name: 'Grid Overlay',
       func: this.toggleGridOverlay,
       params: []
     }, {
+      id: 'toggleFocus',
       name: 'Outline Focus',
       func: this.toggleFocus,
       params: []
     }, {
+      id: 'toggleOutlines',
       name: 'Outline Headings',
       func: this.toggleOutlines,
       params: ['outlineHeadings']
     }, {
+      id: 'toggleOutlines',
       name: 'Outline Image Alternative Attributes',
       func: this.toggleOutlines,
       params: ['outlineElementAttribute', 'img', 'alt']
     }, {
+      id: 'toggleOutlines',
       name: 'Outline Anchor Title Attributes',
       func: this.toggleOutlines,
       params: ['outlineElementAttribute', 'a', 'title']
     }, {
+      id: 'toggleOutlines',
       name: 'Outline Button Title Attributes',
       func: this.toggleOutlines,
       params: ['outlineElementAttribute', 'button', 'title']
     }
   ]
 
+  columns = [1,2,3,4,5,6,7,8,9,10,11,12]
+
   state = {
-    validators: []
+    validators: [],
+    columnMenuOpen: false,
+    column: 12,
+    anchorEl: null
   }
 
   constructor(props: any) {
     super(props)
 
     this.state = {
-      validators: []
+      validators: [],
+      columnMenuOpen: false,
+      column: 12,
+      anchorEl: null
     }
+
+    this.toggleMenu = this.toggleMenu.bind(this)
+    this.setColumn = this.setColumn.bind(this)
   }
 
   async componentDidMount() {
@@ -55,7 +72,7 @@ export default class Home extends React.Component {
     })
   }
 
-  toggleGridOverlay() {
+  toggleGridOverlay(columns: number) {
     // @ts-ignore
     chrome.tabs.query({
       active: true,
@@ -64,7 +81,8 @@ export default class Home extends React.Component {
     }, (tabs) => {
       // @ts-ignore
       chrome.tabs.sendMessage(tabs[0].id, {
-        function: 'toggleGridOverlay'
+        function: 'toggleGridOverlay',
+        columns: columns,
       })
     })
   }
@@ -111,7 +129,21 @@ export default class Home extends React.Component {
     })
   }
 
+  toggleMenu(menu: string, state: boolean) {
+    this.setState({
+      [menu]: state
+    })
+  }
+
+  setColumn(event: any) {
+    this.setState({
+      anchorEl: event.currentTarget
+    })
+    console.log(this.state)
+  }
+
   render() {
+    // @ts-ignore
     return (
       <>
 
@@ -132,9 +164,29 @@ export default class Home extends React.Component {
                   </ListSubheader>
                   <List>
                     {this.actions.map((action: any, index: number) => (
-                      <ListItem key={index} button onClick={() => action.func(action.params)}>
-                        <ListItemText>{action.name}</ListItemText>
-                      </ListItem>
+                      action.id === 'toggleGridOverlay' ? (
+                        <ListItem key={index} button onClick={() => action.func(action.params)}>
+                          <ListItemText>{action.name}</ListItemText>
+                          {/*}
+                          <ListItemSecondaryAction>
+                            <IconButton aria-label="more" aria-controls="column-menu" aria-haspopup="true" onClick={() => this.toggleMenu('columnMenuOpen', true)}>
+                              <MoreVert />
+                            </IconButton>
+                            <Menu id="column-menu" anchorEl={this.state.anchorEl} keepMounted open={this.state.columnMenuOpen} onClose={() => this.toggleMenu('columnMenuOpen', false)}>
+                              {this.columns.map((column) => (
+                                <MenuItem key={column} selected={column === this.state.column} onClick={() => this.toggleMenu('columnMenuOpen', false)}>
+                                  {column === 1 ? column + ' Column' : column + ' Columns'}
+                                </MenuItem>
+                              ))}
+                            </Menu>
+                          </ListItemSecondaryAction>
+                          {*/}
+                        </ListItem>
+                      ) : (
+                        <ListItem key={index} button onClick={() => action.func(action.params)}>
+                          <ListItemText>{action.name}</ListItemText>
+                        </ListItem>
+                      )
                     ))}
                   </List>
                 </ul>
