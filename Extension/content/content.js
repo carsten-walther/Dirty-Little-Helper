@@ -3,7 +3,7 @@
  */
 let initContent = () => {
 
-  chrome.extension.onMessage.addListener((message, sender, callback) => {
+  chrome.runtime.onMessage.addListener((message, sender, callback) => {
 
     if (message.function === 'toggleGridOverlay') {
       toggleGridOverlay(message.columns)
@@ -23,6 +23,10 @@ let initContent = () => {
 
     if (message.function === 'insertText') {
       insertText(message.text)
+    }
+
+    if (message.function === 'toggleA11y') {
+      toggleA11y('en', 'all')
     }
   })
 }
@@ -78,7 +82,8 @@ let toggleGridOverlay = (columns) => {
     } else {
       delete element.dataset.dirtyLittleHelperToggleGrid
       delete element.dataset.dirtyLittleHelperColumns
-      element.removeChild(document.querySelector('[data-dirty-little-helper="overlay-container"]'))
+      element.removeChild(document.querySelector(
+        '[data-dirty-little-helper="overlay-container"]'))
     }
   }
 }
@@ -223,6 +228,36 @@ let insertText = (text) => {
 
   if (typeof (element.value) !== 'undefined') {
     return insertIntoValueElement(element, text)
+  }
+}
+
+/**
+ * toggleA11y
+ *
+ * @param language
+ * @param level
+ */
+let toggleA11y = (language, level) => {
+  const file = `/content/a11y.css/a11y-${language}_${level}.css`
+
+  for (let element of document.getElementsByTagName('body')) {
+    if (!element.dataset.dirtyLittleHelperToggleA11y) {
+      element.dataset.dirtyLittleHelperToggleA11y = true
+
+      let style = document.createElement("link")
+      style.rel = "stylesheet"
+      style.href = chrome.runtime.getURL(file)
+      style.id = "a11yCSS"
+      document.getElementsByTagName("head")[0].appendChild(style)
+
+    } else {
+      delete element.dataset.dirtyLittleHelperToggleA11y
+
+      let style = document.getElementById("a11yCSS")
+      if (style) {
+        style.parentNode.removeChild(style)
+      }
+    }
   }
 }
 
