@@ -13,8 +13,9 @@
   --green-light: #64c97a;
   --font: normal normal 12px/18px Verdana Arial, sans-serif;
   --alpha: 0.333333;
+  --outline: 3px;
 }
 
 *:focus {
-  outline: var(--red-dark) solid 1px !important;
+  outline: var(--outline) solid var(--red-dark) !important;
 }

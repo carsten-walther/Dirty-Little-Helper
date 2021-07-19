@@ -1,9 +1,9 @@
 import React from 'react'
-import { MemoryRouter as Router, Route } from 'react-router-dom'
+import { MemoryRouter as Router, Redirect, Route } from 'react-router-dom'
 
 import { createTheme, ThemeProvider } from '@material-ui/core/styles'
 
-import Home from './pages/Home'
+import Tools from './pages/Tools'
 import Debug from './pages/Debug'
 import Texts from './pages/Texts'
 import Devices from './pages/Devices'
@@ -40,10 +40,11 @@ export default class App extends React.Component {
         return (
             <ThemeProvider theme={theme}>
                 <Router>
-                    <Route path="/" component={Home} exact={true}/>
-                    <Route path="/debug" component={Debug} exact={true}/>
-                    <Route path="/devices" component={Devices} exact={true}/>
-                    <Route path="/texts" component={Texts} exact={true}/>
+                    <Redirect from="/" to="/debug" />
+                    <Route path="/debug" component={Debug} exact/>
+                    <Route path="/tools" component={Tools} exact/>
+                    <Route path="/devices" component={Devices} exact/>
+                    <Route path="/texts" component={Texts} exact/>
                     <Footer/>
                 </Router>
             </ThemeProvider>

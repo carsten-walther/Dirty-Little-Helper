@@ -10,6 +10,10 @@ chrome.runtime.onMessage.addListener((message, sender, callback) => {
       toggleTota11y()
       break
 
+    case 'toggleGrid':
+      toggleGrid(JSON.parse(message.params))
+      break
+
     case 'toggleContentEdit':
       toggleContentEdit()
       break
@@ -85,6 +89,72 @@ let startTota11y = () => {
 }
 let stopTota11y = () => {
   window.location.reload()
+}
+
+/**
+ * toggleGrid
+ *
+ * @param params
+ */
+let toggleGrid = (params) => {
+  if (!document.body.dataset.dlhToggleGrid) {
+    document.body.dataset.dlhToggleGrid = 'true'
+    startGrid(params)
+  } else {
+    delete document.body.dataset.dlhToggleGrid
+    stopGrid()
+  }
+}
+let startGrid = (params) => {
+
+  let style = document.createElement('link')
+  style.rel = 'stylesheet'
+  style.href = chrome.runtime.getURL(`/content/grid/grid.css`)
+  style.id = 'toggleGrid'
+
+  document.head.appendChild(style)
+
+  document.body.dataset.dlhToggleGridColumns = params.columns
+
+  if (typeof params.columns === undefined) {
+    params.columns = 12
+  }
+
+  let rows = []
+  for (let i = 1; i <= params.columns; ++i) {
+
+    rows.push(`
+        <div class="cell auto col">
+          <div data-dirty-little-helper="overlay-background">
+            <div data-dirty-little-helper="overlay-column-title">
+              ${i}
+            </div>
+          </div>
+        </div>
+      `)
+  }
+
+  let html = `
+      <div data-dirty-little-helper="overlay-container" style="height: ${document.body.offsetHeight}px;">
+        <div class="grid-container container">
+          <div class="grid-x grid-padding-x row">
+            ${rows.join('')}
+          </div>
+        </div>
+      </div>
+    `
+
+  document.body.insertAdjacentHTML('beforeend', html)
+}
+let stopGrid = () => {
+  let style = document.getElementById('toggleGrid')
+  if (style) {
+    style.parentNode.removeChild(style)
+  }
+
+  delete document.body.dataset.dlhToggleGridColumns
+
+  document.body.removeChild(document.querySelector('[data-dirty-little-helper="overlay-container"]'))
 }
 
 
@@ -330,9 +400,6 @@ let startOutline = (params) => {
       break;
 
     case 'headings':
-      findHeadings();
-      break;
-
     case 'images':
     case 'anchors':
     case 'buttons':
@@ -355,9 +422,6 @@ let stopOutline = (params) => {
       break;
 
     case 'headings':
-      clearHeadings();
-      break;
-
     case 'images':
     case 'anchors':
     case 'buttons':
@@ -400,17 +464,6 @@ let findOverflows = () => {
   }
 }
 
-let clearHeadings = () => {
-  for (let element of document.querySelectorAll('h1, h2, h3, h4, h5, h6')) {
-    delete element.dataset.dlhHeaderTagName
-  }
-}
-let findHeadings = () => {
-  for (let element of document.querySelectorAll('h1, h2, h3, h4, h5, h6')) {
-    element.dataset.dlhHeaderTagName = element.tagName
-  }
-}
-
 let clearElementAttribute = (params) => {
   for (let element of document.querySelectorAll(params.tag)) {
     unWrapElement(element);
@@ -418,23 +471,34 @@ let clearElementAttribute = (params) => {
 }
 let findElementAttribute = (params) => {
   for (let element of document.querySelectorAll(params.tag)) {
-    let state = 'filled';
-    if (!element.hasAttribute(params.attribute)) {
-      state = 'missing';
-    } else {
-      if (element.getAttribute(params.attribute) === '') {
-        state = 'empty';
-      }
-    }
-    wrapElement(element, state, params.attribute);
+    wrapElement(element, params);
   }
 }
 
-let wrapElement = (element, state, attribute) => {
+let wrapElement = (element, params) => {
   let wrapper = document.createElement('div')
   wrapper.dataset.dlhElementWrapper = ''
-  wrapper.dataset.dlhElementWrapperState = state
-  wrapper.dataset.dlhElementWrapperAttribute = attribute
+  wrapper.dataset.dlhElementWrapperTag = element.tagName.toLowerCase()
+
+  if (params.attribute) {
+    wrapper.dataset.dlhElementWrapperState = 'filled';
+    if (!element.hasAttribute(params.attribute)) {
+      wrapper.dataset.dlhElementWrapperState = 'missing';
+    } else {
+      if (element.getAttribute(params.attribute) === '') {
+        wrapper.dataset.dlhElementWrapperState = 'empty';
+      }
+    }
+  }
+
+  if (params.attribute) {
+    wrapper.dataset.dlhElementWrapperAttribute = params.attribute
+  }
+
+  if (params.attribute && wrapper.dataset.dlhElementWrapperState) {
+    wrapper.dataset.dlhElementWrapperMessage = params.attribute + ' ' + wrapper.dataset.dlhElementWrapperState
+  }
+
   element.parentNode.appendChild(wrapper)
   wrapper.appendChild(element)
 }
@@ -528,74 +592,11 @@ let initContent = () => {
 
   chrome.runtime.onMessage.addListener((message, sender, callback) => {
 
-    if (message.function === 'toggleGridOverlay') {
-      toggleGridOverlay(message.columns)
-    }
-
     if (message.function === 'insertText') {
       insertText(message.text)
     }
   })
 }
-
-/**
- * toggleGridOverlay
- *
- * @param columns
- */
-let toggleGridOverlay = (columns) => {
-
-  if (typeof columns === 'undefined') {
-    columns = 12
-  }
-
-  for (let element of document.getElementsByTagName('body')) {
-
-    let rows = []
-
-    for (let i = 1; i <= columns; ++i) {
-
-      rows.push(`
-        <div class="cell auto col">
-          <div data-dirty-little-helper="overlay-background">
-            <div data-dirty-little-helper="overlay-column-title">
-              ${i}
-            </div>
-          </div>
-        </div>
-      `)
-    }
-
-    let html = `
-      <div data-dirty-little-helper="overlay-container" style="height: ${document.body.offsetHeight}px;">
-        <div class="grid-container container">
-          <div class="grid-x grid-padding-x row">
-            ${rows.join('')}
-          </div>
-        </div>
-      </div>
-    `
-
-    if (typeof element.dataset.dirtyLittleHelperColumns !== 'undefined') {
-      // update grid
-    } else {
-      // remove grid
-    }
-
-    if (!element.dataset.dirtyLittleHelperToggleGrid) {
-      element.dataset.dirtyLittleHelperToggleGrid = 'true'
-      element.dataset.dirtyLittleHelperColumns = columns
-      element.insertAdjacentHTML('beforeend', html)
-    } else {
-      delete element.dataset.dirtyLittleHelperToggleGrid
-      delete element.dataset.dirtyLittleHelperColumns
-      element.removeChild(document.querySelector(
-        '[data-dirty-little-helper="overlay-container"]'))
-    }
-  }
-}
-
-
 
 /**
  * getActiveElement

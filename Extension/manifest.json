@@ -47,10 +47,10 @@
         "<all_urls>"
       ],
       "resources": [
-        "content/a11y.css/a11y-en_advice.css",
-        "content/a11y.css/a11y-en_error.css",
-        "content/a11y.css/a11y-en_obsolete.css",
-        "content/a11y.css/a11y-en_warning.css",
+        "content/a11y/a11y-en_advice.css",
+        "content/a11y/a11y-en_error.css",
+        "content/a11y/a11y-en_obsolete.css",
+        "content/a11y/a11y-en_warning.css",
 
         "content/tota11y/tota11y.min.js",
 
@@ -59,7 +59,9 @@
         "content/outlines/outline-focus.css",
         "content/outlines/outline-headings.css",
         "content/outlines/outline-images.css",
-        "content/outlines/outline-layout.css"
+        "content/outlines/outline-layout.css",
+
+        "content/grid/grid.css"
       ]
     }
   ],
@@ -71,9 +73,6 @@
       ],
       "js": [
         "content/content.js"
-      ],
-      "css": [
-        "content/content.css"
       ],
       "run_at": "document_end"
     }

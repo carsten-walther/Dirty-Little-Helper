@@ -13,24 +13,46 @@
   --green-light: #64c97a;
   --font: normal normal 12px/18px Verdana Arial, sans-serif;
   --alpha: 0.333333;
+  --outline: 3px;
 }
 
 div[data-dlh-element-wrapper] {
-  display: inline;
+  display: inline-block;
+}
+div[data-dlh-element-wrapper]:after {
+  content: attr(data-dlh-element-wrapper-message);
+  position: relative;
+  top: 0;
+  right: 0;
+  font: var(--font);
+  font-weight: bold;
+  padding: 0 6px 0 6px;
 }
 
 div[data-dlh-element-wrapper-attribute="title"] {
-  outline-offset: -1px;
+  outline-offset: calc(var(--outline) * -1);
 }
 
 div[data-dlh-element-wrapper-attribute="title"][data-dlh-element-wrapper-state="filled"] {
-  outline: 1px solid var(--green-dark) !important;
+  outline: var(--outline) solid var(--green-dark);
+}
+div[data-dlh-element-wrapper-attribute="title"][data-dlh-element-wrapper-state="filled"]:after {
+  background-color: var(--green-dark);
+  color: black;
 }
 
 div[data-dlh-element-wrapper-attribute="title"][data-dlh-element-wrapper-state="empty"] {
-  outline: 1px solid var(--yellow-dark) !important;
+  outline: var(--outline) solid var(--yellow-dark);
+}
+div[data-dlh-element-wrapper-attribute="title"][data-dlh-element-wrapper-state="empty"]:after {
+  background-color: var(--yellow-dark);
+  color: black;
 }
 
 div[data-dlh-element-wrapper-attribute="title"][data-dlh-element-wrapper-state="missing"] {
-  outline: 1px solid var(--red-dark) !important;
+  outline: var(--outline) solid var(--red-dark);
+}
+div[data-dlh-element-wrapper-attribute="title"][data-dlh-element-wrapper-state="missing"]:after {
+  background-color: var(--red-dark);
+  color: black;
 }
