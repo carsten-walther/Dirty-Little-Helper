@@ -15,32 +15,7 @@ export default class Home extends React.Component {
             name: 'Grid Overlay',
             func: this.toggleGridOverlay,
             params: [],
-        }, {
-            id: 'toggleFocus',
-            name: 'Outline Focus',
-            func: this.toggleFocus,
-            params: [],
-        }, {
-            id: 'toggleOutlines',
-            name: 'Outline Headings',
-            func: this.toggleOutlines,
-            params: ['outlineHeadings'],
-        }, {
-            id: 'toggleOutlines',
-            name: 'Outline Image Alternative Attributes',
-            func: this.toggleOutlines,
-            params: ['outlineElementAttribute', 'img', 'alt'],
-        }, {
-            id: 'toggleOutlines',
-            name: 'Outline Anchor Title Attributes',
-            func: this.toggleOutlines,
-            params: ['outlineElementAttribute', 'a', 'title'],
-        }, {
-            id: 'toggleOutlines',
-            name: 'Outline Button Title Attributes',
-            func: this.toggleOutlines,
-            params: ['outlineElementAttribute', 'button', 'title'],
-        },
+        }
     ]
 
     columns = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
