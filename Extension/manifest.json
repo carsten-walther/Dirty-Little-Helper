@@ -50,7 +50,16 @@
         "content/a11y.css/a11y-en_advice.css",
         "content/a11y.css/a11y-en_error.css",
         "content/a11y.css/a11y-en_obsolete.css",
-        "content/a11y.css/a11y-en_warning.css"
+        "content/a11y.css/a11y-en_warning.css",
+
+        "content/tota11y/tota11y.min.js",
+
+        "content/outlines/outline-anchors.css",
+        "content/outlines/outline-buttons.css",
+        "content/outlines/outline-focus.css",
+        "content/outlines/outline-headings.css",
+        "content/outlines/outline-images.css",
+        "content/outlines/outline-layout.css"
       ]
     }
   ],
