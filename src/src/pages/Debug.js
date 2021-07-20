@@ -268,7 +268,9 @@ export default class Texts extends React.Component {
                                             <ListItem key={index} button onClick={this.handleAction.bind(this, action.fn, action.params)} style={{ borderBottom: '1px solid #ddd' }}>
                                                 <ListItemAvatar>
                                                     <Avatar>
-                                                        {action.icon ? action.icon : (<ToolIcon/>)}
+                                                        {action.icon && (
+                                                            <ToolIcon/>
+                                                        )}
                                                     </Avatar>
                                                 </ListItemAvatar>
                                                 <ListItemText primary={action.name} secondary={action.description}/>
