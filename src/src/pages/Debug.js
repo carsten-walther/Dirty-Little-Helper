@@ -1,7 +1,7 @@
 /*global chrome*/
 
 import React from 'react'
-import { Avatar, List, ListItem, ListItemAvatar, ListItemText, ListSubheader, Typography } from '@material-ui/core'
+import { Avatar, List, ListItem, ListItemAvatar, ListItemText, ListSubheader, Typography, ListItemSecondaryAction, IconButton, DeleteIcon } from '@material-ui/core'
 
 import Header from '../components/Header'
 
@@ -114,6 +114,7 @@ export default class Texts extends React.Component {
                     name: 'Readability',
                     description: 'Check readability of sentences using the automated readybility index',
                     active: true,
+                    help: 'readability',
                     fn: 'toggleReadability',
                 }, {
                     icon: <ContentChaosIcon/>,
@@ -240,6 +241,12 @@ export default class Texts extends React.Component {
         })
     }
 
+    handleOpenHelp (section) {
+        chrome.tabs.create({
+            url: `chrome-extension://${chrome.runtime.id}/html/help/${section}.html`
+        })
+    }
+
     render () {
         return (
             <>
@@ -268,6 +275,13 @@ export default class Texts extends React.Component {
 
                                                 {/* arguments rendering should be here */}
 
+                                                {action.help ? action.help : (
+                                                    <ListItemSecondaryAction>
+                                                        <IconButton edge="end" onClick={this.handleOpenHelp.bind(this, action.help)}>
+                                                            <HelpIcon />
+                                                        </IconButton>
+                                                    </ListItemSecondaryAction>
+                                                )}
                                             </ListItem>
                                         ))}
                                     </List>

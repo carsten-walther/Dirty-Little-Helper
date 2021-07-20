@@ -72,7 +72,7 @@ let startA11y = (params) => {
 
   let style = document.createElement('link')
   style.rel = 'stylesheet'
-  style.href = chrome.runtime.getURL(`/content/a11y.css/a11y-${params.language}_${params.level}.css`)
+  style.href = chrome.runtime.getURL(`/content/a11y/a11y-${params.language}_${params.level}.css`)
   style.id = 'toggleA11y'
 
   document.head.appendChild(style)
