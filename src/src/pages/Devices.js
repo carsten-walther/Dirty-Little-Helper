@@ -14,26 +14,6 @@ const Transition = React.forwardRef(function Transition (props, ref) {
 
 export default class Devices extends React.Component {
 
-    state = {
-        dialogOpen: false,
-        groupDialogOpen: false,
-        deviceDialogOpen: false,
-        group: {
-            id: undefined,
-            name: undefined,
-            userAgents: [],
-        },
-        device: {
-            id: undefined,
-            name: undefined,
-            group: undefined,
-            userAgent: undefined,
-            width: undefined,
-            height: undefined,
-        },
-        devices: [],
-    }
-
     constructor (props) {
         super(props)
 
@@ -157,36 +137,26 @@ export default class Devices extends React.Component {
 
     openGroupBrowser (group) {
         group.userAgents.forEach((userAgent) => {
-            // @ts-ignore
             chrome.tabs.query({
                 active: true, currentWindow: true,
-                // @ts-ignore
-            }, (tabs) => {
-                // @ts-ignore
+            }, tabs => {
                 openPopupWindow(userAgent.width, userAgent.height, tabs[0].url, userAgent.userAgent)
             })
         })
     }
 
     openDeviceBrowser (userAgent) {
-        // @ts-ignore
         chrome.tabs.query({
             active: true, currentWindow: true,
-            // @ts-ignore
-        }, (tabs) => {
-            // @ts-ignore
+        }, tabs => {
             openPopupWindow(userAgent.width, userAgent.height, tabs[0].url, userAgent.userAgent)
         })
     }
 
     async deleteGroup (group) {
-        // @ts-ignore
         let indexGroup = this.state.devices.indexOf(group)
-        // @ts-ignore
         this.state.devices.splice(indexGroup, 1)
-
         DeviceService.devices = this.state.devices
-
         await DeviceService.save()
         this.setState({
             devices: [...(await DeviceService.load())],
@@ -197,7 +167,6 @@ export default class Devices extends React.Component {
         let indexGroup = this.state.devices.indexOf(group)
         let indexDevice = this.state.devices[indexGroup].userAgents.indexOf(device)
         this.state.devices[indexGroup].userAgents.splice(indexDevice, 1)
-
         await DeviceService.save()
         this.setState({
             devices: [...(await DeviceService.load())],
@@ -207,21 +176,23 @@ export default class Devices extends React.Component {
     render () {
         return (
             <>
-
                 <Header title="Devices">
                     <IconButton edge="end" color="inherit" onClick={() => this.openDialog('dialogOpen')}>
                         <Add/>
                     </IconButton>
                 </Header>
-
                 <main>
                     {this.state.devices.length > 0 ? (
-                        <List subheader={<li/>} style={{ backgroundColor: 'inherit' }}>
+                        <List>
                             {this.state.devices.map((group, groupIndex) => (
                                 <li key={`section-${groupIndex}`} style={{ backgroundColor: 'inherit' }}>
                                     <ul style={{ backgroundColor: 'inherit', padding: 0 }}>
-                                        <ListSubheader title="Open all in Browser" style={{ cursor: 'pointer', backgroundColor: '#ddd' }}>
-                                            <ListItemText disableTypography primary={<Typography style={{ fontSize: 18, fontWeight: 'bold' }}>{cropText(group.name, 25)}</Typography>} onClick={() => this.openGroupBrowser(group)} style={{ paddingTop: 18, paddingBottom: 18, paddingRight: 48, margin: 0 }}/>
+                                        <ListSubheader title="Open all in Browser">
+                                            <ListItemText disableTypography primary={
+                                                <Typography style={{ fontSize: 14 }}>
+                                                    {cropText(group.name, 25)}
+                                                </Typography>
+                                            } style={{ paddingTop: 8, paddingBottom: 8, margin: 0 }} onClick={() => this.openGroupBrowser(group)}/>
                                             <ListItemSecondaryAction>
                                                 <IconButton color="inherit" title="Edit Element" onClick={() => this.openEditDialog('groupDialogOpen', group)}>
                                                     <Edit/>
@@ -234,7 +205,7 @@ export default class Devices extends React.Component {
                                         {group.userAgents?.length > 0 ? (
                                             <List>
                                                 {group.userAgents.map((device, deviceIndex) => (
-                                                    <ListItem key={deviceIndex} dense button onClick={() => this.openDeviceBrowser(device)} title="Open in Browser">
+                                                    <ListItem key={deviceIndex} button onClick={() => this.openDeviceBrowser(device)} title="Open in Browser" style={{ borderBottom: '1px solid #ddd' }}>
                                                         <ListItemText style={{ paddingRight: 48 }} primary={device.name} secondary={`Width ${device.width}px Height ${device.height}px`}/>
                                                         <ListItemSecondaryAction>
                                                             <IconButton color="inherit" title="Edit Element" onClick={() => this.openEditDialog('deviceDialogOpen', device)}>

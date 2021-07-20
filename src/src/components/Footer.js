@@ -21,7 +21,7 @@ export default class Footer extends React.Component {
     render () {
         return (
             <AppBar position="fixed" style={{ top: 'auto', bottom: 0 }}>
-                <BottomNavigation showLabels value={this.state.value} onChange={this.handleChange.bind(this)}>
+                <BottomNavigation showLabels value={this.state.value} onChange={this.handleChange.bind(this)} variant="dense">
                     <BottomNavigationAction label="Debug" icon={<Flip/>} component={React.forwardRef((props, ref) => <Link {...props} to="/debug"/>)}/>
                     <BottomNavigationAction label="Tools" icon={<Apps/>} component={React.forwardRef((props, ref) => <Link {...props} to="/tools"/>)}/>
                     <BottomNavigationAction label="Devices" icon={<Devices/>} component={React.forwardRef((props, ref) => <Link {...props} to="/devices"/>)}/>

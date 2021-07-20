@@ -31,7 +31,7 @@ div[data-dlh-element-wrapper]:after {
 }
 
 div[data-dlh-element-wrapper-attribute="title"] {
-  outline-offset: calc(var(--outline) * -1);
+
 }
 
 div[data-dlh-element-wrapper-attribute="title"][data-dlh-element-wrapper-state="filled"] {

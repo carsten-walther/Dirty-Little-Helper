@@ -60,6 +60,7 @@
         "content/outlines/outline-headings.css",
         "content/outlines/outline-images.css",
         "content/outlines/outline-layout.css",
+        "content/outlines/outline-zindex.css",
 
         "content/grid/grid.css"
       ]

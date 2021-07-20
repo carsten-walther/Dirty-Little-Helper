@@ -18,10 +18,11 @@
 
 div[data-dlh-element-wrapper] {
   display: inline-block;
+  position: relative;
 }
 div[data-dlh-element-wrapper]:after {
   content: attr(data-dlh-element-wrapper-message);
-  position: relative;
+  position: absolute;
   top: 0;
   right: 0;
   font: var(--font);
@@ -30,7 +31,7 @@ div[data-dlh-element-wrapper]:after {
 }
 
 div[data-dlh-element-wrapper-attribute="title"] {
-  outline-offset: calc(var(--outline) * -1);
+
 }
 
 div[data-dlh-element-wrapper-attribute="title"][data-dlh-element-wrapper-state="filled"] {

@@ -9,7 +9,7 @@ export default class Header extends React.Component {
     render () {
         return (
             <AppBar position="fixed" style={{ top: 0, bottom: 'auto' }}>
-                <Toolbar>
+                <Toolbar variant="dense">
                     <Grid container justifyContent="flex-start">
                         {this.props.backTo && (
                             <IconButton edge="start" color="inherit" component={props => <Link {...props} to={this.props.backTo}/>}>

@@ -18,7 +18,7 @@
 
 div[data-dlh-element-wrapper] {
   position: relative;
-  display: inline-block;
+  display: block;
 }
 div[data-dlh-element-wrapper]:after {
   content: attr(data-dlh-element-wrapper-message);
@@ -31,7 +31,7 @@ div[data-dlh-element-wrapper]:after {
 }
 
 div[data-dlh-element-wrapper-attribute="alt"] {
-  outline-offset: calc(var(--outline) * -1);
+
 }
 
 div[data-dlh-element-wrapper-attribute="alt"][data-dlh-element-wrapper-state="filled"] {

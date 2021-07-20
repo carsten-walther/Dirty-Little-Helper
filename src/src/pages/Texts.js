@@ -15,16 +15,6 @@ const Transition = React.forwardRef(function Transition (props, ref) {
 
 export default class Texts extends React.Component {
 
-    state = {
-        dialogOpen: false,
-        text: {
-            id: undefined,
-            name: undefined,
-            content: undefined,
-        },
-        texts: [],
-    }
-
     constructor (props) {
         super(props)
 
@@ -129,18 +119,16 @@ export default class Texts extends React.Component {
     render () {
         return (
             <>
-
-                <Header title="Dummy Texts">
+                <Header title="Texts">
                     <IconButton edge="end" color="inherit" onClick={this.openNewDialog}>
                         <Add/>
                     </IconButton>
                 </Header>
-
                 <main>
                     {this.state.texts.length > 0 ? (
                         <List>
                             {this.state.texts.map((text, index) => (
-                                <ListItem key={index} dense button onClick={() => this.insertText(text)} title="Insert">
+                                <ListItem key={index} dense button onClick={() => this.insertText(text)} title="Insert" style={{ borderBottom: '1px solid #ddd' }}>
                                     <ListItemText primary={text.name} secondary={cropText(text.content, 70)} style={{ paddingRight: 48 }}/>
                                     <ListItemSecondaryAction>
                                         <IconButton edge="start" color="inherit" title="Edit Element" onClick={() => this.openEditDialog(text)}>

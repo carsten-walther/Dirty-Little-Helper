@@ -1,39 +1,28 @@
 /*global chrome*/
 
 import React from 'react'
-import { List, ListItem, ListItemText, ListSubheader, Typography } from '@material-ui/core'
-import { Launch } from '@material-ui/icons'
+import { Avatar, List, ListItem, ListItemAvatar, ListItemText, ListSubheader, Typography } from '@material-ui/core'
 
 import { ValidatorService } from '../services/ValidatorService'
 import Header from '../components/Header'
+import LaunchIcon from '../components/Icons/Launch'
 
 export default class Tools extends React.Component {
 
-    state = {
-        validators: [],
-        columnMenuOpen: false,
-        column: 12,
-        anchorEl: null,
-    }
-
     constructor (props) {
         super(props)
-
         this.state = {
-            validators: [],
-            columnMenuOpen: false,
-            column: 12,
-            anchorEl: null,
+            validators: []
         }
     }
 
     async componentDidMount () {
         this.setState({
-            validators: [...(await ValidatorService.load())],
+            validators: [...(await ValidatorService.load())]
         })
     }
 
-    validate (url) {
+    handleAction (url) {
         chrome.tabs.query({
             active: true,
             currentWindow: true,
@@ -49,22 +38,26 @@ export default class Tools extends React.Component {
             <>
                 <Header title="Tools"/>
                 <main>
-                    <List subheader={<li/>} style={{ backgroundColor: 'inherit' }}>
+                    <List>
                         {this.state.validators.length > 0 ? (
                             <li style={{ backgroundColor: 'inherit' }}>
                                 <ul style={{ backgroundColor: 'inherit', padding: 0 }}>
-                                    <ListSubheader style={{ backgroundColor: '#ddd' }}>
+                                    <ListSubheader>
                                         <ListItemText disableTypography primary={
-                                            <Typography style={{ fontSize: 16, fontWeight: 'bold' }}>
+                                            <Typography style={{ fontSize: 14 }}>
                                                 Validators
                                             </Typography>
-                                        } style={{ paddingTop: 16, paddingBottom: 16, paddingRight: 48, margin: 0 }}/>
+                                        } style={{ paddingTop: 8, paddingBottom: 8, margin: 0 }}/>
                                     </ListSubheader>
-                                    <List>
+                                    <List style={{ padding: 0 }}>
                                         {this.state.validators.map((validator, index) => (
-                                            <ListItem key={index} button onClick={this.validate.bind(this, validator.url)}>
-                                                <ListItemText>{validator.name}</ListItemText>
-                                                <Launch/>
+                                            <ListItem key={index} button onClick={this.handleAction.bind(this, validator.url)} style={{ borderBottom: '1px solid #ddd' }}>
+                                                <ListItemAvatar>
+                                                    <Avatar>
+                                                        <LaunchIcon/>
+                                                    </Avatar>
+                                                </ListItemAvatar>
+                                                <ListItemText primary={validator.name} secondary={validator.description}/>
                                             </ListItem>
                                         ))}
                                     </List>

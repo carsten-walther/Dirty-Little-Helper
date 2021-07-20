@@ -2,7 +2,39 @@ import { get, set } from './Storage'
 
 class ValidatorServiceController {
 
-    validators = []
+    validators = [
+        {
+            id: 1,
+            name: 'CSS',
+            description: 'W3C CSS Validation Service',
+            url: 'http://jigsaw.w3.org/css-validator/validator?profile=css3&warning=0&uri=',
+        }, {
+            id: 2,
+            name: 'HTML',
+            description: 'W3C Markup Validation Service',
+            url: 'http://validator.w3.org/check?verbose=1&uri=',
+        }, {
+            id: 3,
+            name: 'Feed',
+            description: 'W3C Feed Validation Service',
+            url: 'http://validator.w3.org/feed/check.cgi?url=',
+        }, {
+            id: 4,
+            name: 'Link Checker',
+            description: 'W3C Validation Service',
+            url: 'http://validator.w3.org/checklink?check=Check&hide_type=all&summary=on&uri=',
+        }, {
+            id: 5,
+            name: 'Validate Accessibility',
+            description: 'WAVE Web Accessibility Evaluation Tool',
+            url: 'http://wave.webaim.org/report#/',
+        }, {
+            id: 6,
+            name: 'Validate Structured Data',
+            description: 'Rich result status reports',
+            url: 'https://search.google.com/test/rich-results?url=',
+        }]
+
     storageKey = 'validators'
 
     async load () {
@@ -18,31 +50,31 @@ class ValidatorServiceController {
         return await set(this.storageKey, this.validators)
     }
 
-    get (id) {
+    async get (id) {
         return this.validators.find(validator => validator.id === id)
     }
 
-    create (validator) {
+    async create (validator) {
         let id = Math.max(...this.validators.map(validator => parseInt(validator.id)), 0) + 1
         this.validators.push({
             id: id.toString(),
             name: validator.name,
             url: validator.url,
         })
-        this.save()
+        await this.save()
     }
 
-    update (id, validator) {
+    async update (id, validator) {
         let index = this.validators.indexOf(this.get(id))
         this.validators[index] = validator
-        this.save()
+        await this.save()
     }
 
-    delete (validator) {
+    async delete (validator) {
         let index = this.validators.indexOf(validator)
         if (index > -1) {
             this.validators.splice(index, 1)
-            this.save()
+            await this.save()
         }
     }
 }

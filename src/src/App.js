@@ -11,8 +11,8 @@ import Footer from './components/Footer'
 
 const theme = createTheme({
     typography: {
-        htmlFontSize: 12,
-        fontSize: 10,
+        htmlFontSize: 10,
+        fontSize: 8,
         fontFamily: [
             'Helvetica',
             'Helvetica Neue',
@@ -33,6 +33,32 @@ const theme = createTheme({
             disableRipple: true,
         },
     },
+    overrides: {
+        MuiList: {
+            root: {
+                backgroundColor: 'inherit',
+                padding: 0
+            },
+            padding: {
+                paddingTop: 0,
+                paddingBottom: 0,
+            }
+        },
+        MuiListSubheader: {
+            root: {
+                backgroundColor: '#ddd'
+            },
+            sticky: {
+                backgroundColor: '#ddd'
+            }
+        },
+        MuiListItem: {
+            root: {
+                paddingTop: 4,
+                paddingBottom: 4,
+            }
+        }
+    }
 })
 
 export default class App extends React.Component {

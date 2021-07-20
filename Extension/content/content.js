@@ -33,6 +33,10 @@ chrome.runtime.onMessage.addListener((message, sender, callback) => {
     case 'toggleZIndex':
       toggleZIndex()
       break
+
+    case 'insertText':
+      insertText(message.text)
+      break
   }
 })
 
@@ -511,11 +515,11 @@ let unWrapElement = (element) => {
  * toggleZIndex
  */
 let toggleZIndex = () => {
-  if (!document.body.dataset.dirtyLittleHelperToggleZindex) {
-    document.body.dataset.dirtyLittleHelperToggleZindex = 'true'
+  if (!document.body.dataset.dlhToggleZindex) {
+    document.body.dataset.dlhToggleZindex = 'true'
     startZIndex()
   } else {
-    delete document.body.dataset.dirtyLittleHelperToggleZindex
+    delete document.body.dataset.dlhToggleZindex
     stopZIndex()
   }
 }
@@ -539,7 +543,7 @@ let startZIndex = () => {
     return false;
   }
   Array.from(document.querySelectorAll('*')).filter(el => el.computedStyleMap().get('z-index').value !== 'auto').forEach(el => {
-    const color = `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6,0)}`;
+    const color = `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, 0)}`;
     const zindices = getAllZindex(el);
     const boundingRect = el.getBoundingClientRect();
     const position = isFixed(el) ? 'fixed' : 'absolute';
@@ -549,10 +553,10 @@ let startZIndex = () => {
     label.innerHTML = `z-index: ${zindices[0]}${zindices.length > 1 ? `<br><span><i>ancestor z-indices:</i> ${zindices.slice(1).join(', ')}<span>` : ''}`;
     const child = label.querySelector('span');
     if (child) {
-      child.style.cssText = `opacity:0.8;font-size: 11px;`;
+      child.style.cssText = `opacity:0.8; font-size: 11px;`;
     }
-    overlay.style.cssText = `outline: 1px solid ${color};position: ${position};top: ${boundingRect.y}px;left: ${boundingRect.x}px;width: ${boundingRect.width}px;height: ${boundingRect.height}px;background: transparent;transition: opacity 0.25s ease-in-out;pointer-events: none;z-index: 9999;`;
-    label.style.cssText = `position: absolute;left:-1px;top:${boundingRect.y < 21 ? '-1px' : '-21px' };background: ${color};color: #fff;text-shadow: rgba(0, 0, 0, 0.4) 0px 0.5px 0px;textIndent: 0;padding: 3px;border-radius: 2px;border: 1px solid rgba(0, 0, 0, 0.1);white-space: nowrap;font-size: 12px;font-weight: normal;font-family: sans-serif;line-height: 1.1;text-align: left;pointer-events: all;-webkit-text-fill-color: initial;opacity: 1`;
+    overlay.style.cssText = `outline: 3px solid ${color}; position: ${position}; top: ${boundingRect.y}px; left: ${boundingRect.x}px; width: ${boundingRect.width}px; height: ${boundingRect.height}px; background: transparent; transition: opacity 0.25s ease-in-out; pointer-events: none; z-index: 9999;`;
+    label.style.cssText = `position: absolute; right: 0; top: ${boundingRect.y < 21 ? '-1px' : '-21px' } ;background: ${color}; color: #fff; text-shadow: rgba(0, 0, 0, 0.4) 0px 0.5px 0px; textIndent: 0; padding: 3px; border-radius: 2px; border: 1px solid rgba(0, 0, 0, 0.1); white-space: nowrap; font-size: 12px; font-weight: normal; font-family: sans-serif; line-height: 1.1; text-align: left; pointer-events: all; -webkit-text-fill-color: initial; opacity: 1`;
     overlay.appendChild(label);
     document.body.appendChild(overlay);
     overlays.push(overlay);
@@ -576,39 +580,26 @@ let stopZIndex = () => {
 }
 
 
-
-
-
-
-
-
-
-
-
 /**
- * initContent
+ * insertText
+ *
+ * @param text
  */
-let initContent = () => {
+let insertText = (text) => {
+  let element = getActiveElement(document)
 
-  chrome.runtime.onMessage.addListener((message, sender, callback) => {
+  if (!element) {
+    return false
+  }
 
-    if (message.function === 'insertText') {
-      insertText(message.text)
-    }
-  })
+  if (typeof (element.value) !== 'undefined') {
+    return insertIntoValueElement(element, text)
+  }
 }
 
-/**
- * getActiveElement
- *
- * @param document
- * @returns {Element|boolean}
- */
 let getActiveElement = (document) => {
-
   document = document || window.document
-  if (document.body === document.activeElement ||
-    document.activeElement.tagName === 'IFRAME') {
+  if (document.body === document.activeElement || document.activeElement.tagName === 'IFRAME') {
     let iframes = document.getElementsByTagName('iframe')
     for (let i = 0; i < iframes.length; i++) {
       let focused = getActiveElement(iframes[i].contentWindow.document)
@@ -621,14 +612,6 @@ let getActiveElement = (document) => {
   }
   return false
 }
-
-/**
- * insertIntoValueElement
- *
- * @param element
- * @param text
- * @returns {boolean}
- */
 let insertIntoValueElement = (element, text) => {
 
   let start = element.selectionStart
@@ -648,23 +631,3 @@ let insertIntoValueElement = (element, text) => {
 
   return true
 }
-
-/**
- * insertText
- *
- * @param text
- */
-let insertText = (text) => {
-
-  let element = getActiveElement(document)
-
-  if (!element) {
-    return false
-  }
-
-  if (typeof (element.value) !== 'undefined') {
-    return insertIntoValueElement(element, text)
-  }
-}
-
-
