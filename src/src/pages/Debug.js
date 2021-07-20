@@ -18,6 +18,7 @@ import HeadingIcon from '../components/Icons/Heading'
 import ImageIcon from '../components/Icons/Image'
 import IndexIcon from '../components/Icons/Index'
 import HelpIcon from '../components/Icons/Help'
+import HideIcon from '../components/Icons/Hide'
 
 export default class Texts extends React.Component {
 
@@ -195,7 +196,25 @@ export default class Texts extends React.Component {
                     fn: 'toggleZIndex',
                 },
             ],
-        },
+        }, {
+            name: 'Disabling',
+            active: true,
+            actions: [
+                {
+                    icon: <HideIcon/>,
+                    name: 'CSS',
+                    description: 'Disable all styling on the page',
+                    active: true,
+                    fn: 'toggleDisableCss',
+                }, {
+                    icon: <HideIcon/>,
+                    name: 'Images',
+                    description: 'Disable all images on the page',
+                    active: true,
+                    fn: 'toggleDisableImages',
+                },
+            ],
+        }
     ]
 
     handleAction (fn, params) {
@@ -235,14 +254,9 @@ export default class Texts extends React.Component {
                                                     </Avatar>
                                                 </ListItemAvatar>
                                                 <ListItemText primary={action.name} secondary={action.description}/>
-                                                {/*}
-                                                {console.log(action.arguments)}
-                                                {(action.arguments !== undefined && action.arguments.length > 0) && action.arguments.map((argument, index) => (
-                                                    <>
-                                                        {index}
-                                                    </>
-                                                ))}
-                                                {*/}
+
+                                                {/* arguments rendering should be here */}
+
                                             </ListItem>
                                         ))}
                                     </List>

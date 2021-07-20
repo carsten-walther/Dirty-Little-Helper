@@ -37,6 +37,14 @@ chrome.runtime.onMessage.addListener((message, sender, callback) => {
     case 'insertText':
       insertText(message.text)
       break
+
+    case 'toggleDisableCss':
+      toggleDisableCss()
+      break
+
+    case 'toggleDisableImages':
+      toggleDisableImages()
+      break
   }
 })
 
@@ -630,4 +638,38 @@ let insertIntoValueElement = (element, text) => {
   element.focus()
 
   return true
+}
+
+/**
+ *
+ */
+let toggleDisableCss = () => {
+  if (!document.body.dataset.dlhToggleCss) {
+    document.body.dataset.dlhToggleCss = 'true'
+    startDisableCSS()
+  } else {
+    delete document.body.dataset.dlhToggleCss
+    stopDisableCSS()
+  }
+}
+let startDisableCSS = () => {
+  for (let i = 0; i < document.styleSheets.length; i++) {
+    void(document.styleSheets.item(i).disabled = true);
+  }
+  document.querySelectorAll('*').forEach(elem => {
+    if (elem.style.cssText) {
+      elem.setAttribute("data-style", elem.style.cssText); elem.style.cssText = "";
+    }
+  });
+}
+let stopDisableCSS = () => {
+  for (let i = 0; i < document.styleSheets.length; i++) {
+    void(document.styleSheets.item(i).disabled = false);
+  }
+  document.querySelectorAll('*').forEach(elem => {
+    if (elem.hasAttribute("data-style")) {
+      elem.style.cssText = elem.getAttribute("data-style");
+      elem.removeAttribute("data-style");
+    }
+  });
 }

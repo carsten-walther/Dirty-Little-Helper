@@ -34,6 +34,16 @@ const theme = createTheme({
         },
     },
     overrides: {
+        MuiBottomNavigation: {
+            root: {
+                height: 48
+            }
+        },
+        MuiBottomNavigationAction: {
+            root: {
+                minWidth: 60
+            }
+        },
         MuiList: {
             root: {
                 backgroundColor: 'inherit',
@@ -46,10 +56,10 @@ const theme = createTheme({
         },
         MuiListSubheader: {
             root: {
-                backgroundColor: '#ddd'
+                backgroundColor: '#dddddd'
             },
             sticky: {
-                backgroundColor: '#ddd'
+                backgroundColor: '#dddddd'
             }
         },
         MuiListItem: {
