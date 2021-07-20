@@ -1,7 +1,7 @@
 /*global chrome*/
 
 import React from 'react'
-import { Avatar, List, ListItem, ListItemAvatar, ListItemText, ListSubheader, Typography, ListItemSecondaryAction, IconButton, DeleteIcon } from '@material-ui/core'
+import { Avatar, List, ListItem, ListItemAvatar, ListItemText, ListSubheader, Typography, ListItemSecondaryAction, IconButton, Select, MenuItem } from '@material-ui/core'
 
 import Header from '../components/Header'
 
@@ -229,14 +229,25 @@ export default class Texts extends React.Component {
         }
     ]
 
+    constructor (props) {
+        super(props)
+        this.state = {
+            param: {}
+        }
+    }
+
     handleAction (fn, params) {
+
+        console.log(this.state.params)
+
         chrome.tabs.query({
             active: true,
             currentWindow: true,
         }, tabs => {
             chrome.tabs.sendMessage(tabs[0].id, {
                 function: fn,
-                params: params ? JSON.stringify(params) : null,
+                params: this.state.params ? JSON.stringify(this.state.params) : (params ? JSON.stringify(params) : null),
+                //params: params ? JSON.stringify(params) : null,
             })
         })
     }
@@ -245,6 +256,30 @@ export default class Texts extends React.Component {
         chrome.tabs.create({
             url: `chrome-extension://${chrome.runtime.id}/html/help/${section}.html`
         })
+    }
+
+    handleChange = name => event => {
+        let fieldValue = null
+        switch (event.target.type) {
+            default:
+                fieldValue = event.target.value
+                break
+            case 'file':
+                fieldValue = event.target.files[0]
+                break
+            case 'checkbox':
+                fieldValue = !!event.target.checked
+                break
+            case 'radio':
+                fieldValue = event.target.value
+                break
+        }
+
+        this.setState({
+            param: { ...this.state.param, [name]: fieldValue },
+        })
+
+        console.log(this.state.params)
     }
 
     render () {
@@ -275,7 +310,17 @@ export default class Texts extends React.Component {
                                                 </ListItemAvatar>
                                                 <ListItemText primary={action.name} secondary={action.description}/>
 
-                                                {/* arguments rendering should be here */}
+                                                {action.arguments !== undefined && action.arguments.columns !== undefined && (
+                                                    <ListItemSecondaryAction>
+                                                        <Select name="columns" onClick={this.handleChange.bind(this, 'columns')}>
+                                                            {action.arguments.columns.map((column, index) => (
+                                                                <MenuItem key={index} value={column}>
+                                                                    {column} columns
+                                                                </MenuItem>
+                                                            ))}
+                                                        </Select>
+                                                    </ListItemSecondaryAction>
+                                                )}
 
                                                 {action.help && (
                                                     <ListItemSecondaryAction>
