@@ -275,7 +275,7 @@ export default class Texts extends React.Component {
 
                                                 {/* arguments rendering should be here */}
 
-                                                {action.help ? action.help : (
+                                                {action.help && (
                                                     <ListItemSecondaryAction>
                                                         <IconButton edge="end" onClick={this.handleOpenHelp.bind(this, action.help)}>
                                                             <HelpIcon />
