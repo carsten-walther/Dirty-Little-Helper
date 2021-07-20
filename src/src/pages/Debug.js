@@ -214,6 +214,17 @@ export default class Texts extends React.Component {
                     fn: 'toggleDisableImages',
                 },
             ],
+        }, {
+            name: 'Scrollbars',
+            active: true,
+            actions: [
+                {
+                    name: 'Unneeded scroll bars',
+                    description: 'Render unneded scroll bars that are invisible on MacOS/with overlay scroll bars',
+                    active: true,
+                    fn: 'toggleScrollbars',
+                }
+            ],
         }
     ]
 

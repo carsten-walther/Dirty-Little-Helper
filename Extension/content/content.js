@@ -45,6 +45,10 @@ chrome.runtime.onMessage.addListener((message, sender, callback) => {
     case 'toggleDisableImages':
       toggleDisableImages()
       break
+
+    case 'toggleScrollbars':
+      toggleScrollbars()
+      break
   }
 })
 
@@ -641,7 +645,7 @@ let insertIntoValueElement = (element, text) => {
 }
 
 /**
- *
+ * toggleDisableCss
  */
 let toggleDisableCss = () => {
   if (!document.body.dataset.dlhToggleCss) {
@@ -672,4 +676,91 @@ let stopDisableCSS = () => {
       elem.removeAttribute("data-style");
     }
   });
+}
+
+
+/**
+ * toggleDisableImages
+ */
+let toggleDisableImages = () => {
+  if (!document.body.dataset.dlhToggleImages) {
+    document.body.dataset.dlhToggleImages = 'true'
+    startDisableImages()
+  } else {
+    delete document.body.dataset.dlhToggleImages
+    stopDisableImages()
+  }
+}
+let startDisableImages = () => {
+  document.querySelectorAll("*").forEach(elem => {
+    elem.dataset.ppstyle = elem.style;
+    elem.style.setProperty("background-image", 'none');
+    if (['IMG', 'SOURCE'].includes(elem.nodeName)) {
+      elem.dataset.ppsrc = elem.src;
+      elem.src = null;
+      elem.dataset.ppsrcset = elem.srcset;
+      elem.srcset = null;
+    }
+  })
+}
+let stopDisableImages = () => {
+  document.querySelectorAll("*").forEach(elem => {
+    elem.style = elem.dataset.ppstyle;
+    if (['IMG', 'SOURCE'].includes(elem.nodeName)) {
+      elem.src = elem.dataset.ppsrc;
+      elem.dataset.src = null;
+      elem.srcset = elem.dataset.ppsrcset;
+      elem.dataset.src = null;
+    }
+  })
+}
+
+/**
+ * toggleScrollbars
+ */
+let toggleScrollbars = () => {
+  if (!document.body.dataset.dlhToggleScrollbars) {
+    document.body.dataset.dlhToggleScrollbars = 'true'
+    startScrollbars()
+  } else {
+    delete document.body.dataset.dlhToggleScrollbars
+    stopScrollbars()
+  }
+}
+let scrollBarList = [];
+let startScrollbars = ({ unneeded = true } = {}) => {
+  let style = document.createElement('link')
+  style.rel = 'stylesheet'
+  style.href = chrome.runtime.getURL(`/content/scrollbars/scrollbars.css`)
+  style.id = 'toggleScrollbars'
+
+  document.head.appendChild(style)
+
+  const scroll = 'scroll';
+  const allElem = document.querySelectorAll('*');
+  [...allElem].forEach(elem => {
+    const overflow = window.getComputedStyle(elem).getPropertyValue('overflow');
+    const overflowY = window.getComputedStyle(elem).getPropertyValue('overflow-y');
+    const overflowX = window.getComputedStyle(elem).getPropertyValue('overflow-x');
+    if ([overflow, overflowY].includes(scroll) && (unneeded ? elem.scrollHeight === elem.clientHeight : true)) {
+      elem.classList.add('poly-scrollbar-y');
+      scrollBarList.push(elem);
+    }
+    if([overflow, overflowX].includes(scroll) && (unneeded ? elem.scrollWidth === elem.clientWidth : true)) {
+      elem.classList.add('poly-scrollbar-x');
+      scrollBarList.push(elem);
+    }
+  });
+}
+let stopScrollbars = () => {
+  scrollBarList.forEach(elem => {
+    elem.classList.remove('poly-scrollbar-y');
+    elem.classList.remove('poly-scrollbar-x');
+  });
+  scrollBarList = [];
+
+  let style = document.getElementById('toggleScrollbars')
+  if (style) {
+    style.parentNode.removeChild(style)
+  }
 }

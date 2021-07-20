@@ -62,7 +62,9 @@
         "content/outlines/outline-layout.css",
         "content/outlines/outline-zindex.css",
 
-        "content/grid/grid.css"
+        "content/grid/grid.css",
+
+        "content/scrollbars/scrollbars.css"
       ]
     }
   ],
