@@ -23,14 +23,16 @@ export default class Tools extends React.Component {
     }
 
     handleAction (url) {
-        chrome.tabs.query({
-            active: true,
-            currentWindow: true,
-        }, tabs => {
-            chrome.tabs.create({
-                url: url + tabs[0].url
+        if (chrome.tabs !== undefined) {
+            chrome.tabs.query({
+                active: true,
+                currentWindow: true,
+            }, tabs => {
+                chrome.tabs.create({
+                    url: url + tabs[0].url
+                })
             })
-        })
+        }
     }
 
     render () {
@@ -51,7 +53,7 @@ export default class Tools extends React.Component {
                                     </ListSubheader>
                                     <List style={{ padding: 0 }}>
                                         {this.state.validators.map((validator, index) => (
-                                            <ListItem key={index} button onClick={this.handleAction.bind(this, validator.url)} style={{ borderBottom: '1px solid #ddd' }}>
+                                            <ListItem key={index} button onClick={this.handleAction.bind(this, validator.url)}>
                                                 <ListItemAvatar>
                                                     <Avatar>
                                                         <LaunchIcon/>

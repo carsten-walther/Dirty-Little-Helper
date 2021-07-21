@@ -42,6 +42,10 @@ chrome.runtime.onMessage.addListener((message, sender, callback) => {
       toggleDisableCss()
       break
 
+    case 'togglePrintCss':
+      togglePrintCss()
+      break
+
     case 'toggleDisableImages':
       toggleDisableImages()
       break

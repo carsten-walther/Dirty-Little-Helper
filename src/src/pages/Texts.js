@@ -6,7 +6,6 @@ import { Add, Delete, Edit } from '@material-ui/icons'
 
 import { TextService } from '../services/TextService'
 import { cropText } from '../utilities/Utilities'
-
 import Header from '../components/Header'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
@@ -17,7 +16,6 @@ export default class Texts extends React.Component {
 
     constructor (props) {
         super(props)
-
         this.state = {
             dialogOpen: false,
             text: {
@@ -27,14 +25,6 @@ export default class Texts extends React.Component {
             },
             texts: [],
         }
-
-        this.insertText = this.insertText.bind(this)
-        this.openNewDialog = this.openNewDialog.bind(this)
-        this.openEditDialog = this.openEditDialog.bind(this)
-        this.closeDialog = this.closeDialog.bind(this)
-        this.handleChange = this.handleChange.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.handleDelete = this.handleDelete.bind(this)
     }
 
     async componentDidMount () {
@@ -44,16 +34,17 @@ export default class Texts extends React.Component {
     }
 
     insertText (text) {
-        // @ts-ignore
-        chrome.tabs.query({
-            'active': true, 'currentWindow': true,
-            // @ts-ignore
-        }, (tabs) => {
-            // @ts-ignore
-            chrome.tabs.sendMessage(tabs[0].id, {
-                function: 'insertText', text: text.content,
+        if (chrome.tabs !== undefined) {
+            chrome.tabs.query({
+                active: true,
+                currentWindow: true,
+            }, (tabs) => {
+                chrome.tabs.sendMessage(tabs[0].id, {
+                    function: 'insertText',
+                    text: text.content
+                })
             })
-        })
+        }
     }
 
     openNewDialog () {
@@ -87,10 +78,12 @@ export default class Texts extends React.Component {
     }
 
     async handleSubmit (event) {
+        event.preventDefault()
+
         if (typeof this.state.text.id === 'undefined') {
-            TextService.create(this.state.text)
+            await TextService.create(this.state.text)
         } else {
-            TextService.update(this.state.text.id, this.state.text)
+            await TextService.update(this.state.text.id, this.state.text)
         }
 
         this.setState({
@@ -98,29 +91,29 @@ export default class Texts extends React.Component {
         })
 
         this.closeDialog()
-
-        event.preventDefault()
     }
 
     async handleDelete (text) {
-        let texts = [...(await TextService.load())]
-        let index = texts.indexOf(text)
+        if (window.confirm('Are you sure you wish to delete this item?')) {
+            let texts = [...(await TextService.load())]
+            let index = texts.indexOf(text)
 
-        if (index > -1) {
-            texts.splice(index, 1)
+            if (index > -1) {
+                texts.splice(index, 1)
+            }
+
+            await TextService.delete(text)
+            this.setState({
+                texts: [...(await TextService.load())],
+            })
         }
-
-        await TextService.delete(text)
-        this.setState({
-            texts: [...(await TextService.load())],
-        })
     }
 
     render () {
         return (
             <>
                 <Header title="Texts">
-                    <IconButton edge="end" color="inherit" onClick={this.openNewDialog}>
+                    <IconButton edge="end" color="inherit" onClick={this.openNewDialog.bind(this)}>
                         <Add/>
                     </IconButton>
                 </Header>
@@ -128,13 +121,13 @@ export default class Texts extends React.Component {
                     {this.state.texts.length > 0 ? (
                         <List>
                             {this.state.texts.map((text, index) => (
-                                <ListItem key={index} dense button onClick={() => this.insertText(text)} title="Insert" style={{ borderBottom: '1px solid #ddd' }}>
+                                <ListItem key={index} dense button onClick={this.insertText.bind(this, text)} title="Insert">
                                     <ListItemText primary={text.name} secondary={cropText(text.content, 70)} style={{ paddingRight: 48 }}/>
                                     <ListItemSecondaryAction>
-                                        <IconButton edge="start" color="inherit" title="Edit Element" onClick={() => this.openEditDialog(text)}>
+                                        <IconButton edge="start" color="inherit" title="Edit Element" onClick={this.openEditDialog.bind(this, text)}>
                                             <Edit/>
                                         </IconButton>
-                                        <IconButton edge="end" color="inherit" title="Delete Element" onClick={() => {if (window.confirm('Are you sure you wish to delete this item?')) this.handleDelete(text)}}>
+                                        <IconButton edge="end" color="inherit" title="Delete Element" onClick={this.handleDelete.bind(this, text)}>
                                             <Delete/>
                                         </IconButton>
                                     </ListItemSecondaryAction>
@@ -144,8 +137,8 @@ export default class Texts extends React.Component {
                     ) : null}
                 </main>
 
-                <Dialog open={this.state.dialogOpen} onClose={this.closeDialog} TransitionComponent={Transition} keepMounted>
-                    <form noValidate autoComplete="off" onSubmit={this.handleSubmit}>
+                <Dialog open={this.state.dialogOpen} onClose={this.closeDialog.bind(this)} TransitionComponent={Transition} keepMounted>
+                    <form noValidate autoComplete="off" onSubmit={this.handleSubmit.bind(this)}>
                         <DialogTitle>
                             Text
                         </DialogTitle>
@@ -153,14 +146,14 @@ export default class Texts extends React.Component {
                             <DialogContentText>
                                 Please enter a name and the text, that will be inserted.
                             </DialogContentText>
-                            <TextField type="text" label="Name" name="name" value={this.state.text.name || ''} autoFocus fullWidth required onChange={this.handleChange}/>
-                            <TextField label="Content" name="content" value={this.state.text.content || ''} autoFocus fullWidth multiline rows={6} required onChange={this.handleChange}/>
+                            <TextField type="text" label="Name" name="name" value={this.state.text.name || ''} fullWidth required onChange={this.handleChange.bind(this)}/>
+                            <TextField label="Content" name="content" value={this.state.text.content || ''} fullWidth multiline rows={6} required onChange={this.handleChange.bind(this)}/>
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={this.closeDialog} color="primary">
+                            <Button onClick={this.closeDialog.bind(this)} color="primary">
                                 Cancel
                             </Button>
-                            <Button type="submit" color="primary" autoFocus>
+                            <Button type="submit" color="primary">
                                 Save
                             </Button>
                         </DialogActions>
