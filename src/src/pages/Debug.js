@@ -33,7 +33,7 @@ export default class Texts extends React.Component {
                     name: 'Advices',
                     description: 'Outline errors, warnings, obsoletes, advices',
                     active: true,
-                    help: 'ally',
+                    help: 'a11y',
                     fn: 'toggleA11y',
                     defaults: {
                         language: 'en',
@@ -44,7 +44,7 @@ export default class Texts extends React.Component {
                     name: 'Obsoletes',
                     description: 'Outline errors, warnings and obsoletes',
                     active: true,
-                    help: 'ally',
+                    help: 'a11y',
                     fn: 'toggleA11y',
                     defaults: {
                         language: 'en',
@@ -55,7 +55,7 @@ export default class Texts extends React.Component {
                     name: 'Warnings',
                     description: 'Outline errors and warnings',
                     active: true,
-                    help: 'ally',
+                    help: 'a11y',
                     fn: 'toggleA11y',
                     defaults: {
                         language: 'en',
@@ -66,7 +66,7 @@ export default class Texts extends React.Component {
                     name: 'Errors',
                     description: 'Outline errors',
                     active: true,
-                    help: 'ally',
+                    help: 'a11y',
                     fn: 'toggleA11y',
                     defaults: {
                         language: 'en',
