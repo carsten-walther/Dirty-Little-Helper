@@ -30,7 +30,7 @@ const theme = createTheme({
     },
     props: {
         MuiButtonBase: {
-            disableRipple: true,
+            disableRipple: false,
         },
     },
     overrides: {
@@ -66,6 +66,7 @@ const theme = createTheme({
             root: {
                 paddingTop: 4,
                 paddingBottom: 4,
+                borderBottom: '1px solid #dddddd'
             }
         }
     }

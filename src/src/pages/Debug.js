@@ -19,6 +19,7 @@ import ImageIcon from '../components/Icons/Image'
 import IndexIcon from '../components/Icons/Index'
 import HelpIcon from '../components/Icons/Help'
 import HideIcon from '../components/Icons/Hide'
+import PrintIcon from '../components/Icons/Print'
 
 export default class Texts extends React.Component {
 
@@ -32,8 +33,9 @@ export default class Texts extends React.Component {
                     name: 'Advices',
                     description: 'Outline errors, warnings, obsoletes, advices',
                     active: true,
+                    help: 'ally',
                     fn: 'toggleA11y',
-                    params: {
+                    defaults: {
                         language: 'en',
                         level: 'advice',
                     },
@@ -42,8 +44,9 @@ export default class Texts extends React.Component {
                     name: 'Obsoletes',
                     description: 'Outline errors, warnings and obsoletes',
                     active: true,
+                    help: 'ally',
                     fn: 'toggleA11y',
-                    params: {
+                    defaults: {
                         language: 'en',
                         level: 'obsolete',
                     },
@@ -52,8 +55,9 @@ export default class Texts extends React.Component {
                     name: 'Warnings',
                     description: 'Outline errors and warnings',
                     active: true,
+                    help: 'ally',
                     fn: 'toggleA11y',
-                    params: {
+                    defaults: {
                         language: 'en',
                         level: 'warning',
                     },
@@ -62,8 +66,9 @@ export default class Texts extends React.Component {
                     name: 'Errors',
                     description: 'Outline errors',
                     active: true,
+                    help: 'ally',
                     fn: 'toggleA11y',
-                    params: {
+                    defaults: {
                         language: 'en',
                         level: 'error',
                     },
@@ -78,6 +83,7 @@ export default class Texts extends React.Component {
                     name: 'Tota11y',
                     description: 'Start accessibility visualization toolkit',
                     active: true,
+                    help: 'tota11y',
                     fn: 'toggleTota11y',
                 },
             ],
@@ -90,11 +96,12 @@ export default class Texts extends React.Component {
                     name: 'Show grid',
                     description: 'Draws the CSS framework grid',
                     active: true,
+                    help: 'grid',
                     arguments: {
                         columns: [1, 2, 3, 4, 6, 8, 9, 10, 12],
                     },
                     fn: 'toggleGrid',
-                    params: {
+                    defaults: {
                         columns: 12,
                     },
                 },
@@ -112,7 +119,7 @@ export default class Texts extends React.Component {
                 }, {
                     icon: <ReadabilityIcon/>,
                     name: 'Readability',
-                    description: 'Check readability of sentences using the automated readybility index',
+                    description: 'Check readability of sentences using the automated readability index',
                     active: true,
                     help: 'readability',
                     fn: 'toggleReadability',
@@ -134,7 +141,7 @@ export default class Texts extends React.Component {
                     description: 'Draw boxes around all elements',
                     active: true,
                     fn: 'toggleOutline',
-                    params: {
+                    defaults: {
                         type: 'layout',
                     },
                 }, {
@@ -143,7 +150,7 @@ export default class Texts extends React.Component {
                     description: 'Draw boxes around focus elements',
                     active: true,
                     fn: 'toggleOutline',
-                    params: {
+                    defaults: {
                         type: 'focus',
                     },
                 }, {
@@ -152,7 +159,7 @@ export default class Texts extends React.Component {
                     description: 'Draw boxes around all headings',
                     active: true,
                     fn: 'toggleOutline',
-                    params: {
+                    defaults: {
                         type: 'headings',
                         tag: 'h1, h2, h3, h4, h5, h6',
                     },
@@ -162,7 +169,7 @@ export default class Texts extends React.Component {
                     description: 'Draw boxes around images with missing alt attribute',
                     active: true,
                     fn: 'toggleOutline',
-                    params: {
+                    defaults: {
                         type: 'images',
                         tag: 'img',
                         attribute: 'alt',
@@ -173,7 +180,7 @@ export default class Texts extends React.Component {
                     description: 'Draw boxes around anchors with missing title attribute',
                     active: true,
                     fn: 'toggleOutline',
-                    params: {
+                    defaults: {
                         type: 'anchors',
                         tag: 'a',
                         attribute: 'title',
@@ -184,7 +191,7 @@ export default class Texts extends React.Component {
                     description: 'Draw boxes around buttons with missing title attribute',
                     active: true,
                     fn: 'toggleOutline',
-                    params: {
+                    defaults: {
                         type: 'buttons',
                         tag: 'button, input[type="submit"]',
                         attribute: 'title',
@@ -198,18 +205,23 @@ export default class Texts extends React.Component {
                 },
             ],
         }, {
-            name: 'Disabling',
+            name: 'Styling',
             active: true,
             actions: [
                 {
                     icon: <HideIcon/>,
-                    name: 'CSS',
+                    name: 'Disable CSS',
                     description: 'Disable all styling on the page',
                     active: true,
                     fn: 'toggleDisableCss',
-                }, {
+                }
+            ]
+        }, {
+            name: 'Images',
+            active: true,
+            actions: [{
                     icon: <HideIcon/>,
-                    name: 'Images',
+                    name: 'Disable images',
                     description: 'Disable all images on the page',
                     active: true,
                     fn: 'toggleDisableImages',
@@ -221,7 +233,7 @@ export default class Texts extends React.Component {
             actions: [
                 {
                     name: 'Unneeded scroll bars',
-                    description: 'Render unneded scroll bars that are invisible on MacOS/with overlay scroll bars',
+                    description: 'Render unneeded scroll bars that are invisible on MacOS/with overlay scroll bars',
                     active: true,
                     fn: 'toggleScrollbars',
                 }
@@ -232,34 +244,42 @@ export default class Texts extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
-            param: {}
+            paramName: '',
+            paramValue: ''
         }
     }
 
-    handleAction (fn, params) {
-
-        console.log(this.state.params)
-
-        chrome.tabs.query({
-            active: true,
-            currentWindow: true,
-        }, tabs => {
-            chrome.tabs.sendMessage(tabs[0].id, {
-                function: fn,
-                params: this.state.params ? JSON.stringify(this.state.params) : (params ? JSON.stringify(params) : null),
-                //params: params ? JSON.stringify(params) : null,
+    handleAction (action) {
+        let params = null
+        if (this.state.paramName !== "" && this.state.paramValue !== "") {
+            params = {[this.state.paramName]: this.state.paramValue}
+        } else {
+            params = action.defaults
+        }
+        if (chrome.tabs !== undefined) {
+            chrome.tabs.query({
+                active: true,
+                currentWindow: true,
+            }, tabs => {
+                chrome.tabs.sendMessage(tabs[0].id, {
+                    function: action.fn,
+                    params: JSON.stringify(params)
+                })
             })
-        })
+        }
     }
 
     handleOpenHelp (section) {
-        chrome.tabs.create({
-            url: `chrome-extension://${chrome.runtime.id}/html/help/${section}.html`
-        })
+        if (chrome.tabs !== undefined) {
+            chrome.tabs.create({
+                url: `chrome-extension://${chrome.runtime.id}/html/help/${section}.html`
+            })
+        }
     }
 
-    handleChange = name => event => {
+    handleChange (name, event) {
         let fieldValue = null
+
         switch (event.target.type) {
             default:
                 fieldValue = event.target.value
@@ -276,10 +296,9 @@ export default class Texts extends React.Component {
         }
 
         this.setState({
-            param: { ...this.state.param, [name]: fieldValue },
+            paramName: name,
+            paramValue: fieldValue,
         })
-
-        console.log(this.state.params)
     }
 
     render () {
@@ -298,37 +317,33 @@ export default class Texts extends React.Component {
                                             </Typography>
                                         } style={{ paddingTop: 8, paddingBottom: 8, margin: 0 }}/>
                                     </ListSubheader>
-                                    <List style={{ padding: 0 }}>
+                                    <List>
                                         {actionGroup.actions !== undefined && actionGroup.actions.length > 0 && actionGroup.actions.map((action, index) => action.active && (
-                                            <ListItem key={index} button onClick={this.handleAction.bind(this, action.fn, action.params)} style={{ borderBottom: '1px solid #ddd' }}>
+                                            <ListItem key={index} button onClick={this.handleAction.bind(this, action)}>
                                                 <ListItemAvatar>
                                                     <Avatar>
-                                                        {action.icon && (
+                                                        {action.icon ? action.icon : (
                                                             <ToolIcon/>
                                                         )}
                                                     </Avatar>
                                                 </ListItemAvatar>
                                                 <ListItemText primary={action.name} secondary={action.description}/>
-
-                                                {action.arguments !== undefined && action.arguments.columns !== undefined && (
-                                                    <ListItemSecondaryAction>
-                                                        <Select name="columns" onClick={this.handleChange.bind(this, 'columns')}>
+                                                <ListItemSecondaryAction>
+                                                    {action.arguments !== undefined && action.arguments.columns !== undefined && (
+                                                        <Select name="columns" value={this.state.paramValue ? this.state.paramValue : action.defaults.columns} onClick={this.handleChange.bind(this, 'columns')}>
                                                             {action.arguments.columns.map((column, index) => (
-                                                                <MenuItem key={index} value={column}>
-                                                                    {column} columns
+                                                                <MenuItem key={index} value={column} style={{ border: 0 }}>
+                                                                    {column} cols
                                                                 </MenuItem>
                                                             ))}
                                                         </Select>
-                                                    </ListItemSecondaryAction>
-                                                )}
-
-                                                {action.help && (
-                                                    <ListItemSecondaryAction>
+                                                    )}
+                                                    {action.help && (
                                                         <IconButton edge="end" onClick={this.handleOpenHelp.bind(this, action.help)}>
                                                             <HelpIcon />
                                                         </IconButton>
-                                                    </ListItemSecondaryAction>
-                                                )}
+                                                    )}
+                                                </ListItemSecondaryAction>
                                             </ListItem>
                                         ))}
                                     </List>

@@ -2,7 +2,7 @@ import { get, set } from './Storage'
 
 class ValidatorServiceController {
 
-    validators = [
+    defaults = [
         {
             id: 1,
             name: 'CSS',
@@ -33,9 +33,27 @@ class ValidatorServiceController {
             name: 'Validate Structured Data',
             description: 'Rich result status reports',
             url: 'https://search.google.com/test/rich-results?url=',
+        }, {
+            id: 7,
+            name: 'Validator.nu',
+            description: '(X)HTML5 Validator',
+            url: 'https://html5.validator.nu/?doc=',
         }]
 
+    validators = []
+
     storageKey = 'validators'
+
+    constructor () {
+        this.init().then(r => {})
+    }
+
+    async init () {
+        let hasItems = await get(this.storageKey)
+        if (hasItems === undefined) {
+            await set(this.storageKey, this.defaults)
+        }
+    }
 
     async load () {
         if (this.validators.length > 0) {
@@ -55,9 +73,9 @@ class ValidatorServiceController {
     }
 
     async create (validator) {
-        let id = Math.max(...this.validators.map(validator => parseInt(validator.id)), 0) + 1
+        let id = Math.max(...this.validators.map(validator => validator.id), 0) + 1
         this.validators.push({
-            id: id.toString(),
+            id: id,
             name: validator.name,
             url: validator.url,
         })
@@ -65,7 +83,7 @@ class ValidatorServiceController {
     }
 
     async update (id, validator) {
-        let index = this.validators.indexOf(this.get(id))
+        let index = this.validators.indexOf(await this.get(id))
         this.validators[index] = validator
         await this.save()
     }
