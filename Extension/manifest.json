@@ -1,15 +1,18 @@
 {
+  "manifest_version": 3,
+
   "name": "Dirty Little Helper",
-  "version": "2.0.3",
+  "version": "3.0.0",
   "description": "Dirty Little Helper - Developer Tool Set",
-  "manifest_version": 2,
+
   "icons": {
     "16": "images/icon-16x16.png",
     "32": "images/icon-32x32.png",
     "48": "images/icon-48x48.png",
     "128": "images/icon-128x128.png"
   },
-  "browser_action": {
+
+  "action": {
     "default_icon": {
       "16": "images/icon-16x16.png",
       "32": "images/icon-32x32.png",
@@ -19,48 +22,62 @@
     "default_popup": "popup/index.html",
     "default_title": "Dirty Little Helper"
   },
+
   "background": {
-    "scripts": [
-      "background/background.js",
-      "background/data.js",
-      "background/storage.js",
-      "background/commands.js",
-      "background/contextMenus.js",
-      "background/windowActions.js"
-    ],
-    "persistent": true
+    "service_worker": "background.js"
   },
-  "content_security_policy": "script-src 'self' https://cdn.jsdelivr.net; object-src 'self'",
+
   "permissions": [
+    "tabs",
     "activeTab",
     "storage",
     "contextMenus",
     "background",
-    "webRequest",
-    "webRequestBlocking",
-    "file://*/*",
-    "http://*/",
-    "https://*/"
+    "webRequest"
   ],
+
+  "host_permissions": [
+    "<all_urls>",
+    "*://*/*"
+  ],
+
+  "web_accessible_resources": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "resources": [
+        "content/a11y/a11y-en_advice.css",
+        "content/a11y/a11y-en_error.css",
+        "content/a11y/a11y-en_obsolete.css",
+        "content/a11y/a11y-en_warning.css",
+
+        "content/tota11y/tota11y.min.js",
+
+        "content/outlines/outline-anchors.css",
+        "content/outlines/outline-buttons.css",
+        "content/outlines/outline-focus.css",
+        "content/outlines/outline-headings.css",
+        "content/outlines/outline-images.css",
+        "content/outlines/outline-layout.css",
+        "content/outlines/outline-zindex.css",
+
+        "content/grid/grid.css",
+
+        "content/scrollbars/scrollbars.css"
+      ]
+    }
+  ],
+
   "content_scripts": [
     {
       "matches": [
         "<all_urls>"
       ],
-      "css": [
-        "content/content.css"
-      ],
       "js": [
         "content/content.js"
-      ]
+      ],
+      "run_at": "document_end"
     }
-  ],
-  "commands": {
-    "toggle_grid_overlay": {
-      "description": "Toggle Grid Overlay",
-      "suggested_key": {
-        "default": "Ctrl+Shift+0"
-      }
-    }
-  }
+  ]
 }

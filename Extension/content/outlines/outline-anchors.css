@@ -1,0 +1,59 @@
+:root {
+  --gray-dark: #2f2f31;
+  --gray-light: #f2f3f7;
+  --blue-dark: #0032b4;
+  --blue-light: #5e86ef;
+  --red-dark: #f0446e;
+  --red-light: #ff9bb1;
+  --yellow-dark: #ebc259;
+  --yellow-light: #ffe171;
+  --mint-dark: #1bc99e;
+  --mint-light: #96f8bb;
+  --green-dark: #4ac955;
+  --green-light: #64c97a;
+  --font: normal normal 12px/18px Verdana Arial, sans-serif;
+  --alpha: 0.333333;
+  --outline: 3px;
+}
+
+div[data-dlh-element-wrapper] {
+  display: inline-block;
+  position: relative;
+}
+div[data-dlh-element-wrapper]:after {
+  content: attr(data-dlh-element-wrapper-message);
+  position: absolute;
+  top: 0;
+  right: 0;
+  font: var(--font);
+  font-weight: bold;
+  padding: 0 6px 0 6px;
+}
+
+div[data-dlh-element-wrapper-attribute="title"] {
+
+}
+
+div[data-dlh-element-wrapper-attribute="title"][data-dlh-element-wrapper-state="filled"] {
+  outline: var(--outline) solid var(--green-dark);
+}
+div[data-dlh-element-wrapper-attribute="title"][data-dlh-element-wrapper-state="filled"]:after {
+  background-color: var(--green-dark);
+  color: black;
+}
+
+div[data-dlh-element-wrapper-attribute="title"][data-dlh-element-wrapper-state="empty"] {
+  outline: var(--outline) solid var(--yellow-dark);
+}
+div[data-dlh-element-wrapper-attribute="title"][data-dlh-element-wrapper-state="empty"]:after {
+  background-color: var(--yellow-dark);
+  color: black;
+}
+
+div[data-dlh-element-wrapper-attribute="title"][data-dlh-element-wrapper-state="missing"] {
+  outline: var(--outline) solid var(--red-dark);
+}
+div[data-dlh-element-wrapper-attribute="title"][data-dlh-element-wrapper-state="missing"]:after {
+  background-color: var(--red-dark);
+  color: black;
+}

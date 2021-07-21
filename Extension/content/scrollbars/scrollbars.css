@@ -1,0 +1,48 @@
+.poly-scrollbar-x, .poly-scrollbar-y {
+  position: relative;
+  box-sizing: content-box;
+  --bg: #fafafa;
+  --outer: #E8E8E8;
+  --inner: #ededed;
+}
+
+@media (prefers-color-scheme: dark) {
+  .poly-scrollbar-x, .poly-scrollbar-y {
+    --bg: #0f0f0f;
+    --outer: #242424;
+    --inner: #1c1c1c;
+  }
+}
+
+.poly-scrollbar-y::after, .poly-scrollbar-x::before {
+  content: " ";
+  position: absolute;
+  background: var(--bg);
+}
+
+.poly-scrollbar-y::after {
+  right: 0;
+  top: 0;
+  width: 13px;
+  height: 100%;
+  border-left: 1px solid var(--outer);
+  border-right: 1px solid var(--inner);
+}
+
+.poly-scrollbar-x::before {
+  left: 0;
+  bottom: 0;
+  height: 13px;
+  width: 100%;
+  border-top: 1px solid var(--outer);
+  border-bottom: 1px solid var(--inner);
+}
+
+.poly-scrollbar-x.poly-scrollbar-y::before {
+  width: calc(100% - 1px);
+  border-right: 1px solid var(--inner);
+}
+
+.poly-scrollbar-x.poly-scrollbar-y::after {
+  height: calc(100% - 14px);
+}
