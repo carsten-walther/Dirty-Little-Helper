@@ -3,11 +3,13 @@
  */
 chrome.runtime.onInstalled.addListener((details) => {
 
+  let reason = details.reason === 'chrome_update' ? 'update' : details.reason
+
   /**
    * open new tab after install/update
    */
   chrome.tabs.create({
-    url: `chrome-extension://${chrome.runtime.id}/html/${details.reason}.html`
+    url: `chrome-extension://${chrome.runtime.id}/html/${reason}.html`
   })
 })
 
