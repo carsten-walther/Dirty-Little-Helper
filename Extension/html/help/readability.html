@@ -1,53 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dirty Little Helper :: Help</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dirty Little Helper :: Help</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 </head>
 <body class="d-flex flex-column h-100">
 
-    <main class="flex-shrink-0 m-5">
-        <div class="container-fluid">
-            <p class="lead mb-0">Help</p>
-            <h1 class="">Dirty Little Helper</h1>
-            <hr/>
+  <main class="flex-shrink-0 m-5">
+    <div class="container-fluid">
+      <p class="lead mb-0">Help</p>
+      <h1 class="">Dirty Little Helper</h1>
+      <hr />
 
-            <article>
-                <header>
-                    <h2>Automated Readability Index (ARI)</h2>
-                    <p>Formula: <strong>index = 4.71 x (characters/words) + 0.5 x (words/sentences) - 21.43</strong></p>
-                </header>
-                <p>ARI is rely on counting characters, words and sentence. The other indices consider number of syllables and complex words (polysyllabics - with 3 or more syllables) too. Opinions vary on which type are the most accurate. It is more difficult to automate the counting of syllable as the English language does not comply to strict standards!</p>
-                <p>For example, if your ARI score is 10, then your text should be understood by high school students.</p>
-                <h3>What does my score mean?</h3>
-                <p>Your Automated Readability Index score approximates the age needed to understand the text. For a breakdown of grade levels in the U.S., you can reference this chart:</p>
-                <ul>
-                    <li>5-6 yrs. old — Kindergarten</li>
-                    <li>6-7 yrs. old — First Grade</li>
-                    <li>7-8 yrs. old — Second Grade</li>
-                    <li>8-9 yrs. old — Third Grade</li>
-                    <li>9-10 yrs. old — Fourth Grade</li>
-                    <li>10-11 yrs. old — Fifth Grade</li>
-                    <li>11-12 yrs. old — Sixth Grade</li>
-                    <li>12-13 yrs. old — Seventh Grade</li>
-                    <li>13-14 yrs. old — Eighth Grade</li>
-                    <li>14-15 yrs. old — Ninth Grade</li>
-                    <li>15-16 yrs. old — Tenth Grade</li>
-                    <li>16-17 yrs. old — Eleventh grade</li>
-                    <li>17-18 yrs. old — Twelfth grade</li>
-                    <li>18-22 yrs. old – College</li>
-                </ul>
-                <p>Unlike most readability measures, ARI takes into account characters per word instead of syllables per word. This is because the number of characters is more accurately interpreted by computer programs.</p>
-                <p>If your ARI doesn’t accurately reflect the age or grade level of your target audience, you may need to revisit your text and make the necessary edits to ensure your writing resonates with the intended target.</p>
-            </article>
+      <article>
+        <header>
+          <h2>Automated Readability Index (ARI)</h2>
+          <p>Formula: <strong>index = 4.71 x (characters/words) + 0.5 x (words/sentences) - 21.43</strong></p>
+        </header>
+        <p>ARI is rely on counting characters, words and sentence. The other indices consider number of syllables and complex words (polysyllabics - with 3 or more syllables) too. Opinions vary on which type are the most accurate. It is more
+          difficult to automate the counting of syllable as the English language does not comply to strict standards!</p>
+        <p>For example, if your ARI score is 10, then your text should be understood by high school students.</p>
+        <h3>What does my score mean?</h3>
+        <p>Your Automated Readability Index score approximates the age needed to understand the text. For a breakdown of grade levels in the U.S., you can reference this chart:</p>
 
-            <hr/>
-            <p class="text-muted">07.2021 | Dirty Little Helper</p>
-            <div class="py-1"></div>
-        </div>
-    </main>
+        <table class="table table-striped table-bordered table-hover table-sm">
+          <thead>
+            <tr>
+              <th>Score</th>
+              <th>School Level</th>
+              <th style="text-align:right">Age</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Kindergarten</td>
+              <td style="text-align:right">5-6</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>1st &amp; 2nd Grade</td>
+              <td style="text-align:right">6-7</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>3rd Grade</td>
+              <td style="text-align:right">7-9</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>4th Grade</td>
+              <td style="text-align:right">9-10</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>5th Grade</td>
+              <td style="text-align:right">10-11</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>6th Grade</td>
+              <td style="text-align:right">11-12</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>7th Grade</td>
+              <td style="text-align:right">12-13</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>8th Grade</td>
+              <td style="text-align:right">13-14</td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td>9th Grade</td>
+              <td style="text-align:right">14-15</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>10th Grade</td>
+              <td style="text-align:right">15-16</td>
+            </tr>
+            <tr>
+              <td>11</td>
+              <td>11th Grade</td>
+              <td style="text-align:right">16-17</td>
+            </tr>
+            <tr>
+              <td>12</td>
+              <td>12th Grade</td>
+              <td style="text-align:right">17-18</td>
+            </tr>
+            <tr>
+              <td>13</td>
+              <td>College Student</td>
+              <td style="text-align:right">18-24</td>
+            </tr>
+            <tr>
+              <td>14</td>
+              <td>Professor</td>
+              <td style="text-align:right">24+</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>Unlike most readability measures, ARI takes into account characters per word instead of syllables per word. This is because the number of characters is more accurately interpreted by computer programs.</p>
+        <p>If your ARI doesn’t accurately reflect the age or grade level of your target audience, you may need to revisit your text and make the necessary edits to ensure your writing resonates with the intended target.</p>
+      </article>
+
+      <hr />
+      <p class="text-muted">07.2021 | Dirty Little Helper</p>
+      <div class="py-1"></div>
+    </div>
+  </main>
 
 </body>
 </html>
