@@ -2,7 +2,10 @@
  * onInstalled
  */
 chrome.runtime.onInstalled.addListener((details) => {
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
   /**
    * open new tab after install/update
    */

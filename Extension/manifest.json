@@ -2,7 +2,11 @@
   "manifest_version": 3,
 
   "name": "Dirty Little Helper",
+<<<<<<< Updated upstream
   "version": "3.0.1",
+=======
+  "version": "3.0.4",
+>>>>>>> Stashed changes
   "description": "Dirty Little Helper - Developer Tool Set",
 
   "icons": {
