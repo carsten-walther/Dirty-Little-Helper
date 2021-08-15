@@ -16,44 +16,43 @@
   --outline: 3px;
 }
 
-div[data-dlh-element-wrapper] {
+dlh-container[data-dlh-element-wrapper] {
   position: relative;
-  display: block;
+  display: inline;
 }
-div[data-dlh-element-wrapper]:after {
-  content: attr(data-dlh-element-wrapper-message);
+dlh-container[data-dlh-element-wrapper]:before {
+  content: attr(data-dlh-element-wrapper-tag);
   position: absolute;
-  top: 0;
   right: 0;
   font: var(--font);
   font-weight: bold;
-  padding: 0 6px 0 6px;
+  padding: 0 6px;
 }
 
-div[data-dlh-element-wrapper-attribute="alt"] {
-
+dlh-container[data-dlh-element-wrapper-attribute="alt"] {
+  outline: calc(var(--outline)) solid var(--gray-dark);
 }
 
-div[data-dlh-element-wrapper-attribute="alt"][data-dlh-element-wrapper-state="filled"] {
+dlh-container[data-dlh-element-wrapper-attribute="alt"][data-dlh-element-wrapper-state="filled"] {
   outline: var(--outline) solid var(--green-dark);
 }
-div[data-dlh-element-wrapper-attribute="alt"][data-dlh-element-wrapper-state="filled"]:after {
+dlh-container[data-dlh-element-wrapper-attribute="alt"][data-dlh-element-wrapper-state="filled"]:before {
   background-color: var(--green-dark);
   color: black;
 }
 
-div[data-dlh-element-wrapper-attribute="alt"][data-dlh-element-wrapper-state="empty"] {
+dlh-container[data-dlh-element-wrapper-attribute="alt"][data-dlh-element-wrapper-state="empty"] {
   outline: var(--outline) solid var(--yellow-dark);
 }
-div[data-dlh-element-wrapper-attribute="alt"][data-dlh-element-wrapper-state="empty"]:after {
+dlh-container[data-dlh-element-wrapper-attribute="alt"][data-dlh-element-wrapper-state="empty"]:before {
   background-color: var(--yellow-dark);
   color: black;
 }
 
-div[data-dlh-element-wrapper-attribute="alt"][data-dlh-element-wrapper-state="missing"] {
+dlh-container[data-dlh-element-wrapper-attribute="alt"][data-dlh-element-wrapper-state="missing"] {
   outline: var(--outline) solid var(--red-dark);
 }
-div[data-dlh-element-wrapper-attribute="alt"][data-dlh-element-wrapper-state="missing"]:after {
+dlh-container[data-dlh-element-wrapper-attribute="alt"][data-dlh-element-wrapper-state="missing"]:before {
   background-color: var(--red-dark);
   color: white;
 }

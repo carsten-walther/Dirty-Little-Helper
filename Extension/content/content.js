@@ -42,10 +42,6 @@ chrome.runtime.onMessage.addListener((message, sender, callback) => {
       toggleDisableCss()
       break
 
-    case 'togglePrintCss':
-      togglePrintCss()
-      break
-
     case 'toggleDisableImages':
       toggleDisableImages()
       break
@@ -110,6 +106,7 @@ let startTota11y = () => {
 let stopTota11y = () => {
   window.location.reload()
 }
+
 
 /**
  * toggleGrid
@@ -465,7 +462,7 @@ let findOverflows = () => {
     document.querySelectorAll('*').forEach(elem => {
       if (elem.getBoundingClientRect().right > docWidth) {
         overflowList.push(elem);
-        elem.style.setProperty('outline', '2px solid #f00', 'important');
+        elem.style.setProperty('outline', '3px solid #f00', 'important');
         elem.style.setProperty('background', '#f004', 'important');
       } else {
         [...elem.childNodes].filter(node => node.nodeType === Node.TEXT_NODE).forEach(text => {
@@ -496,9 +493,13 @@ let findElementAttribute = (params) => {
 }
 
 let wrapElement = (element, params) => {
-  let wrapper = document.createElement('div')
+  let wrapper = document.createElement('dlh-container')
   wrapper.dataset.dlhElementWrapper = ''
   wrapper.dataset.dlhElementWrapperTag = element.tagName.toLowerCase()
+
+  if (params.title) {
+    wrapper.dataset.dlhElementWrapperTitle = params.title
+  }
 
   if (params.attribute) {
     wrapper.dataset.dlhElementWrapperState = 'filled';
@@ -519,13 +520,14 @@ let wrapElement = (element, params) => {
     wrapper.dataset.dlhElementWrapperMessage = params.attribute + ' ' + wrapper.dataset.dlhElementWrapperState
   }
 
-  element.parentNode.appendChild(wrapper)
+  element.parentNode.replaceChild(wrapper, element)
   wrapper.appendChild(element)
 }
 let unWrapElement = (element) => {
   let wrapper = element.parentElement
   wrapper.replaceWith(element)
 }
+
 
 /**
  * toggleZIndex
@@ -540,59 +542,30 @@ let toggleZIndex = () => {
   }
 }
 let startZIndex = () => {
-  const overlays = [];
-  const getAllZindex = el => {
-    const zindices = [el.computedStyleMap().get('z-index').value];
-    while (el.parentNode && el.parentNode.computedStyleMap) {
-      el = el.parentNode;
-      let zIndex = el.computedStyleMap() && el.computedStyleMap().get('z-index').value;
-      if (zIndex && zIndex !== 'auto') {
-        zindices.push(zIndex);
-      }
-    }
-    return zindices;
-  };
-  const isFixed = elem => {
-    do {
-      if (window.getComputedStyle(elem).position === 'fixed') return true;
-    } while (elem === elem.offsetParent);
-    return false;
-  }
-  Array.from(document.querySelectorAll('*')).filter(el => el.computedStyleMap().get('z-index').value !== 'auto').forEach(el => {
-    const color = `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, 0)}`;
-    const zindices = getAllZindex(el);
-    const boundingRect = el.getBoundingClientRect();
-    const position = isFixed(el) ? 'fixed' : 'absolute';
-    const overlay = document.createElement('div');
-    overlay.classList.add('dlh-label');
-    const label = document.createElement('span');
-    label.innerHTML = `z-index: ${zindices[0]}${zindices.length > 1 ? `<br><span><i>ancestor z-indices:</i> ${zindices.slice(1).join(', ')}<span>` : ''}`;
-    const child = label.querySelector('span');
-    if (child) {
-      child.style.cssText = `opacity:0.8; font-size: 11px;`;
-    }
-    overlay.style.cssText = `outline: 3px solid ${color}; position: ${position}; top: ${boundingRect.y}px; left: ${boundingRect.x}px; width: ${boundingRect.width}px; height: ${boundingRect.height}px; background: transparent; transition: opacity 0.25s ease-in-out; pointer-events: none; z-index: 9999;`;
-    label.style.cssText = `position: absolute; right: 0; top: ${boundingRect.y < 21 ? '-1px' : '-21px' } ;background: ${color}; color: #fff; text-shadow: rgba(0, 0, 0, 0.4) 0px 0.5px 0px; textIndent: 0; padding: 3px; border-radius: 2px; border: 1px solid rgba(0, 0, 0, 0.1); white-space: nowrap; font-size: 12px; font-weight: normal; font-family: sans-serif; line-height: 1.1; text-align: left; pointer-events: all; -webkit-text-fill-color: initial; opacity: 1`;
-    overlay.appendChild(label);
-    document.body.appendChild(overlay);
-    overlays.push(overlay);
-    label.addEventListener('mouseenter', () => {
-      overlays.forEach(el => el.style.opacity = 0.1);
-      overlay.style.opacity = 1;
-      overlay.style.zIndex = 10000;
-      overlay.style.boxShadow = '0px 0px 10px rgba(0,0,0,0.5)';
-    });
-    label.addEventListener('mouseleave', () => {
-      overlays.forEach(el => el.style.opacity = null);
-      overlay.style.zIndex = 9999;
-      overlay.style.boxShadow = null;
-    });
-  });
+  let style = document.createElement('link')
+  style.rel = 'stylesheet'
+  style.href = chrome.runtime.getURL(`/content/outlines/outline-zindex.css`)
+  style.id = 'toggleZIndex'
+
+  document.head.appendChild(style)
+
+  Array.from(document.querySelectorAll('*')).
+    filter(element => element.computedStyleMap().get('z-index').value !== 'auto').
+    forEach(element => {
+      wrapElement(element, { title: element.computedStyleMap() && element.computedStyleMap().get('z-index').value })
+    })
 }
 let stopZIndex = () => {
-  document.querySelectorAll('.dlh-label').forEach(el => {
-    el.remove();
-  });
+  let style = document.getElementById('toggleZIndex')
+  if (style) {
+    style.parentNode.removeChild(style)
+  }
+
+  Array.from(document.querySelectorAll('*')).
+    filter(element => element.computedStyleMap().get('z-index').value !== 'auto').
+    forEach(element => {
+      unWrapElement(element)
+    })
 }
 
 
