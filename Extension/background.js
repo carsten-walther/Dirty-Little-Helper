@@ -5,9 +5,15 @@ chrome.runtime.onInstalled.addListener((details) => {
   /**
    * open new tab after install/update
    */
-  chrome.tabs.create({
-    url: `chrome-extension://${chrome.runtime.id}/html/${details.reason}.html`
-  })
+  if (details.reason === 'update') {
+    chrome.tabs.create({
+      url: `chrome-extension://${chrome.runtime.id}/html/update.html`
+    })
+  } else if (details.reason === 'install') {
+    chrome.tabs.create({
+      url: `chrome-extension://${chrome.runtime.id}/html/install.html`
+    })
+  }
 })
 
 /**
